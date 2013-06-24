@@ -1,0 +1,17 @@
+//
+// Prefix header for all source files of the 'ChaseMe' target in the 'ChaseMe' project
+//
+
+#import <Availability.h>
+
+#ifndef __IPHONE_5_0
+#warning "This project uses features only available in iOS SDK 5.0 and later."
+#endif
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+    #import <Foundation/Foundation.h>
+#endif
+
+#define GMaps_APIKey @"AIzaSyA5DY1IZLlToNiDVkd_UmCLrfYcV0Nr3As"
+#define MyLocationsNotification @"myLocationsNotification"
