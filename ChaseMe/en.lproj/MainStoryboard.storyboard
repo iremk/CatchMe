@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="4457.6" systemVersion="12D78" targetRuntime="iOS.CocoaTouch" variant="6xAndEarlier" propertyAccessControl="none" useAutolayout="YES" initialViewController="eh9-Rq-ibc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12D78" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="eh9-Rq-ibc">
     <dependencies>
         <deployment defaultVersion="1552" identifier="iOS"/>
         <development version="4600" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3682.6"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
     </dependencies>
     <scenes>
-        <!--Map View Controller - ChaseMe-->
+        <!--Map View Controller - CatchMe-->
         <scene sceneID="5">
             <objects>
                 <viewController storyboardIdentifier="mapViewController" id="2" customClass="MapViewController" sceneMemberID="viewController">
@@ -15,7 +15,6 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K51-qQ-13V" customClass="GMSMapView">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
@@ -27,8 +26,7 @@
                             <constraint firstItem="K51-qQ-13V" firstAttribute="leading" secondItem="3" secondAttribute="leading" type="default" id="nYm-4k-S0x"/>
                         </constraints>
                     </view>
-                    <extendedEdge key="edgesForExtendedLayout"/>
-                    <navigationItem key="navigationItem" title="ChaseMe" id="hTb-kc-7Sf"/>
+                    <navigationItem key="navigationItem" title="CatchMe" id="hTb-kc-7Sf"/>
                     <connections>
                         <outlet property="mapView" destination="K51-qQ-13V" id="Zrn-XF-rtt"/>
                     </connections>
@@ -41,7 +39,6 @@
         <scene sceneID="2B8-LI-pZS">
             <objects>
                 <navigationController definesPresentationContext="YES" id="eh9-Rq-ibc" sceneMemberID="viewController">
-                    <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="5kF-O3-dWn">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -57,7 +54,6 @@
         <scene sceneID="jQZ-zK-xkQ">
             <objects>
                 <navigationController definesPresentationContext="YES" id="ZoI-fu-yo9" sceneMemberID="viewController">
-                    <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="sWg-7U-Ydo">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -73,7 +69,6 @@
         <scene sceneID="DGd-5h-v3y">
             <objects>
                 <navigationController definesPresentationContext="YES" id="b8G-Ae-rKQ" sceneMemberID="viewController">
-                    <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="z6C-xU-Tkl">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -85,7 +80,7 @@
             </objects>
             <point key="canvasLocation" x="143" y="1292"/>
         </scene>
-        <!--Settings View Controller - ChaseMe-->
+        <!--Settings View Controller - Settings-->
         <scene sceneID="rdc-U5-Ib4">
             <objects>
                 <viewController storyboardIdentifier="settingsViewController" id="s9r-MJ-0eT" customClass="SettingsViewController" sceneMemberID="viewController">
@@ -94,14 +89,13 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <extendedEdge key="edgesForExtendedLayout"/>
-                    <navigationItem key="navigationItem" title="ChaseMe" id="Zcd-yd-Xlz"/>
+                    <navigationItem key="navigationItem" title="Settings" id="Zcd-yd-Xlz"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="E8P-uQ-atk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="532" y="1292"/>
         </scene>
-        <!--Connections View Controller-->
+        <!--Connections View Controller - Connections-->
         <scene sceneID="dVq-pk-rkI">
             <objects>
                 <viewController storyboardIdentifier="connectionsViewController" id="uIW-Oj-DiN" customClass="ConnectionsViewController" sceneMemberID="viewController">
@@ -110,13 +104,12 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lCZ-X6-bj3">
-                                <rect key="frame" x="20" y="440" width="280" height="44"/>
                                 <color key="backgroundColor" red="0.14901960784313725" green="0.066666666666666666" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="yJ5-XC-Kxz"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Find and Add Friends">
+                                <state key="normal" title="Add New Friends">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -127,16 +120,63 @@
                                     <action selector="findFriends:" destination="uIW-Oj-DiN" eventType="touchUpInside" id="dpZ-rZ-9XN"/>
                                 </connections>
                             </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="f6j-gL-8Os">
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="Cell" id="PLn-gc-hKN">
+                                        <rect key="frame" x="0.0" y="22" width="320" height="60"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jvF-HZ-H77">
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="50" id="WlU-iT-ZqD"/>
+                                                        <constraint firstAttribute="height" constant="50" id="c6F-Kr-CKm"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YeC-v0-qis">
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="237" id="fZW-RQ-ggS"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="GillSans-Light" family="Gill Sans" pointSize="22"/>
+                                                    <color key="textColor" red="0.25098039220000001" green="0.1058823529" blue="0.01176470588" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstItem="YeC-v0-qis" firstAttribute="bottom" secondItem="jvF-HZ-H77" secondAttribute="bottom" type="default" id="4HM-lK-Xa6"/>
+                                            <constraint firstItem="YeC-v0-qis" firstAttribute="leading" secondItem="jvF-HZ-H77" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="Wqi-dz-A8r"/>
+                                            <constraint firstAttribute="trailing" secondItem="YeC-v0-qis" secondAttribute="trailing" constant="20" type="default" id="eUJ-JB-Kj5"/>
+                                            <constraint firstItem="jvF-HZ-H77" firstAttribute="centerY" secondItem="PLn-gc-hKN" secondAttribute="centerY" type="default" id="lpd-Nn-qUr"/>
+                                            <constraint firstItem="YeC-v0-qis" firstAttribute="top" secondItem="jvF-HZ-H77" secondAttribute="top" type="default" id="vDS-UB-zZo"/>
+                                        </constraints>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="uIW-Oj-DiN" id="BcT-KC-zqV"/>
+                                    <outlet property="delegate" destination="uIW-Oj-DiN" id="Yl2-EP-84a"/>
+                                </connections>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="f6j-gL-8Os" firstAttribute="trailing" secondItem="ZQd-5d-Yof" secondAttribute="trailing" type="default" id="9vl-gR-kqB"/>
                             <constraint firstItem="lCZ-X6-bj3" firstAttribute="leading" secondItem="ZQd-5d-Yof" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="NFX-0Q-90k"/>
+                            <constraint firstItem="lCZ-X6-bj3" firstAttribute="top" secondItem="f6j-gL-8Os" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="X5v-WW-4lh"/>
                             <constraint firstAttribute="trailing" secondItem="lCZ-X6-bj3" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="gSo-oi-wKE"/>
+                            <constraint firstItem="f6j-gL-8Os" firstAttribute="leading" secondItem="ZQd-5d-Yof" secondAttribute="leading" type="default" id="hkI-f8-0E2"/>
                             <constraint firstAttribute="bottom" secondItem="lCZ-X6-bj3" secondAttribute="bottom" constant="20" symbolic="YES" type="default" id="q3O-6S-EOR"/>
+                            <constraint firstItem="f6j-gL-8Os" firstAttribute="top" secondItem="ZQd-5d-Yof" secondAttribute="top" type="default" id="yt0-iS-azg"/>
                         </constraints>
                     </view>
-                    <extendedEdge key="edgesForExtendedLayout"/>
-                    <navigationItem key="navigationItem" id="yzn-bn-kP1"/>
+                    <navigationItem key="navigationItem" title="Connections" id="yzn-bn-kP1"/>
+                    <connections>
+                        <outlet property="requestsTableView" destination="f6j-gL-8Os" id="AJt-h4-4eo"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="h0v-4h-lR6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -151,13 +191,11 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Ib-XN-BxZ">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                 <items>
                                     <navigationItem id="I2P-bB-AN6"/>
                                 </items>
                             </navigationBar>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OEw-dR-UAQ">
-                                <rect key="frame" x="0.0" y="44" width="320" height="504"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
@@ -172,7 +210,6 @@
                             <constraint firstItem="3Ib-XN-BxZ" firstAttribute="top" secondItem="Or9-ae-WVy" secondAttribute="top" type="default" id="qQf-8y-Lsa"/>
                         </constraints>
                     </view>
-                    <extendedEdge key="edgesForExtendedLayout"/>
                     <connections>
                         <outlet property="selectionView" destination="OEw-dR-UAQ" id="q7v-10-lr5"/>
                     </connections>
@@ -190,7 +227,6 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <extendedEdge key="edgesForExtendedLayout"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zgQ-Cq-UE9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -205,6 +241,7 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ConnectionsViewController.h"/>
             <relationships>
                 <relationship kind="action" name="findFriends:"/>
+                <relationship kind="outlet" name="requestsTableView" candidateClass="UITableView"/>
             </relationships>
         </class>
         <class className="FriendPickerViewController" superclassName="UIViewController">

@@ -46,10 +46,18 @@
     return returnStr;
 }
 
--(id)becomeFriends:(NSString *)facebookUserId
+-(id)addFriend:(NSMutableDictionary *)params
 {
-#warning directive - become friends hemen yazılmalı
-    //become friends kodu
+    PFObject *incidentObject = [PFObject objectWithClassName:@"FriendRequests"];
+    [incidentObject setObject:[[[[PFUser currentUser] valueForKey:@"authData"] valueForKey:@"facebook"] valueForKey:@"id"] forKey:@"sender"];
+    [incidentObject setObject:[params valueForKey:@"id"] forKey:@"receiver"];
+    [incidentObject setObject:[NSNumber numberWithFloat:0] forKey:@"isFriends"];
+    [incidentObject setObject:[params valueForKey:@"first_name"] forKey:@"firstName"];
+    [incidentObject setObject:[params valueForKey:@"last_name"] forKey:@"lastName"];
+    [incidentObject setObject:[[[params valueForKey:@"picture"] valueForKey:@"data"] valueForKey:@"url"] forKey:@"picture"];
+    [incidentObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        NSLog(@"added!");
+    }];
     return nil;
 }
 

@@ -10,6 +10,7 @@
 #import "UIImage+iPhone5.h"
 
 #define NumberOfItems 3
+#define CellHeight 80
 
 @interface MenuViewController ()
 {
@@ -37,6 +38,8 @@
     [menuTableView setDataSource:self];
     [menuTableView setDelegate:self];
     [menuTableView setSeparatorColor:[UIColor clearColor]];
+    UIColor* bgColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"pattern.png"]];
+    [menuTableView setBackgroundColor:bgColor];
     [self.view addSubview:menuTableView];
     
 	// Do any additional setup after loading the view.
@@ -56,8 +59,8 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] ;
     }
-    UIImageView *icon = [[UIImageView alloc] initWithFrame:CGRectMake(15, (((self.view.frame.size.height)/NumberOfItems)-28)/2, 28, 28)];
-    UILabel * title = [[UILabel alloc] initWithFrame:CGRectMake(53, (((self.view.frame.size.height)/NumberOfItems)-20)/2, 120, 28)];
+    UIImageView *icon = [[UIImageView alloc] initWithFrame:CGRectMake(15, (CellHeight-28)/2, 28, 28)];
+    UILabel * title = [[UILabel alloc] initWithFrame:CGRectMake(53, (CellHeight-28)/2, 120, 28)];
     [title setBackgroundColor:[UIColor clearColor]];
     [title setTextColor:[UIColor whiteColor]];
     [title setFont:[UIFont fontWithName:@"ConfettiStream" size:18.0]];
@@ -78,10 +81,10 @@
     }
     [icon setContentMode:UIViewContentModeCenter];
     
-    UIColor* bgColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"pattern.png"]];
+    /*UIColor* bgColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"pattern.png"]];
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, cell.contentView.frame.size.width, (self.view.frame.size.height)/NumberOfItems)];
     [imageView setBackgroundColor:bgColor];
-    [cell.contentView addSubview:imageView];
+    [cell.contentView addSubview:imageView];*/
     [cell.contentView addSubview:icon];
     [cell.contentView addSubview:title];
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
@@ -100,7 +103,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return (self.view.frame.size.height)/NumberOfItems;
+    return CellHeight;//(self.view.frame.size.height)/NumberOfItems;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

@@ -55,6 +55,15 @@
 -(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
     CLLocation *newLocation = [locations lastObject];
+    
+    PFUser *currentUser = [PFUser currentUser];
+    if(currentUser)
+    {
+        [currentUser setValue:[NSNumber numberWithFloat:newLocation.coordinate.latitude] forKey:@"latitude"];
+        [currentUser setValue:[NSNumber numberWithFloat:newLocation.coordinate.longitude] forKey:@"longitude"];
+        [currentUser saveInBackground];
+    }
+    
     [myLocations addObject:newLocation];
     if([myLocations count] == 6)
     {

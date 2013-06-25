@@ -71,6 +71,9 @@
 		49719B911762488B003FEC35 /* Confetti.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 49719B901762488B003FEC35 /* Confetti.ttf */; };
 		49719B9417624A2A003FEC35 /* button-menu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 49719B9217624A2A003FEC35 /* button-menu@2x.png */; };
 		49719B9517624A2A003FEC35 /* button-menu.png in Resources */ = {isa = PBXBuildFile; fileRef = 49719B9317624A2A003FEC35 /* button-menu.png */; };
+		498421711779AC7B004C6284 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 498421701779AC7B004C6284 /* Default.png */; };
+		498421731779AC7E004C6284 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 498421721779AC7E004C6284 /* Default@2x.png */; };
+		498421751779AC82004C6284 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 498421741779AC82004C6284 /* Default-568h@2x.png */; };
 		49A0B07117634E4F003258CD /* Api.m in Sources */ = {isa = PBXBuildFile; fileRef = 49A0B07017634E4F003258CD /* Api.m */; };
 		49A0B075176355E0003258CD /* ConnectionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49A0B074176355E0003258CD /* ConnectionsViewController.m */; };
 		49A0B079176355F2003258CD /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49A0B078176355F2003258CD /* SettingsViewController.m */; };
@@ -203,6 +206,9 @@
 		49719B901762488B003FEC35 /* Confetti.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Confetti.ttf; sourceTree = "<group>"; };
 		49719B9217624A2A003FEC35 /* button-menu@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-menu@2x.png"; sourceTree = "<group>"; };
 		49719B9317624A2A003FEC35 /* button-menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-menu.png"; sourceTree = "<group>"; };
+		498421701779AC7B004C6284 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		498421721779AC7E004C6284 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		498421741779AC82004C6284 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		49A0B06F17634E4F003258CD /* Api.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Api.h; sourceTree = "<group>"; };
 		49A0B07017634E4F003258CD /* Api.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Api.m; sourceTree = "<group>"; };
 		49A0B073176355E0003258CD /* ConnectionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionsViewController.h; sourceTree = "<group>"; };
@@ -283,6 +289,9 @@
 		49719ACD176221E7003FEC35 = {
 			isa = PBXGroup;
 			children = (
+				498421741779AC82004C6284 /* Default-568h@2x.png */,
+				498421721779AC7E004C6284 /* Default@2x.png */,
+				498421701779AC7B004C6284 /* Default.png */,
 				49719ADF176221E7003FEC35 /* CatchMe */,
 				49719AD8176221E7003FEC35 /* Frameworks */,
 				49719AD7176221E7003FEC35 /* Products */,
@@ -783,6 +792,9 @@
 				49A0B0B31763CA85003258CD /* back_button@2x.png in Resources */,
 				49B7AE8D176FBB4500E9AC35 /* catchMeLogoApp@2x.png in Resources */,
 				49B7AE8F176FBB4900E9AC35 /* catchMeLogoApp.png in Resources */,
+				498421711779AC7B004C6284 /* Default.png in Resources */,
+				498421731779AC7E004C6284 /* Default@2x.png in Resources */,
+				498421751779AC82004C6284 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

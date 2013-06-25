@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "BaseViewController.h"
 
-@interface MapViewController : BaseViewController <PFLogInViewControllerDelegate>
+@interface MapViewController : BaseViewController <PFLogInViewControllerDelegate , GMSMapViewDelegate>
 
 @property (nonatomic , strong) IBOutlet GMSMapView *mapView;
 

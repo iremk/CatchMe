@@ -62,9 +62,9 @@
     [[UIBarButtonItem appearance] setBackgroundImage:barButton forState:UIControlStateNormal
                                           barMetrics:UIBarMetricsDefault];
     
-    UIImage *backButton = [[UIImage tallImageNamed:@"back_button.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 14, 0, 14)];
+    /*UIImage *backButton = [[UIImage tallImageNamed:@"back_button.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 14, 0, 14)];
     [[UIBarButtonItem appearance] setBackButtonBackgroundImage:backButton forState:UIControlStateNormal
-                                                    barMetrics:UIBarMetricsDefault];
+                                                    barMetrics:UIBarMetricsDefault];*/
     
     return YES;
 }

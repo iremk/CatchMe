@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
+#import <Parse/Parse.h>
 
 @interface Api : NSObject <CLLocationManagerDelegate>
 
@@ -16,6 +17,6 @@
 + (id)sharedInstance;
 -(id)getCurrentLocation;
 -(id)convertLocationsToString:(NSMutableArray *)locations;
--(id)becomeFriends:(NSString *)facebookUserId;
+-(id)addFriend:(NSMutableDictionary *)params;
 
 @end

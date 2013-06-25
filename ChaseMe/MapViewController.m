@@ -32,14 +32,7 @@
                                                                  zoom:14];
     [mapView setCamera:camera];
     mapView.myLocationEnabled = YES;
-    
-    // Creates a marker in the center of the map.
-    /*GMSMarker *marker = [[GMSMarker alloc] init];
-    marker.position = CLLocationCoordinate2DMake(-33.86, 151.20);
-    marker.title = @"";
-    marker.snippet = @"Australia";
-    marker.map = mapView;*/
-    
+    mapView.delegate = self;
     if(![PFUser currentUser])
         [self logmein];
     path = [GMSMutablePath path];
@@ -50,8 +43,28 @@
      object:nil];
 }
 
+- (void)mapView:(GMSMapView *)inMapView
+didLongPressAtCoordinate:(CLLocationCoordinate2D)coordinate {
+    
+    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Bilgi" andMessage:@"Gitmek istediğiniz yeri mi seçtiniz?"];
+     [alertView addButtonWithTitle:@"Hayır"
+     type:SIAlertViewButtonTypeDestructive
+     handler:^(SIAlertView *alertView) {
+     NSLog(@"Cancel Clicked");
+     }];
+     [alertView addButtonWithTitle:@"Evet"
+     type:SIAlertViewButtonTypeDefault
+     handler:^(SIAlertView *alertView) {
+         CLLocationCoordinate2D position = CLLocationCoordinate2DMake(coordinate.latitude, coordinate.longitude);
+         GMSMarker *marker = [GMSMarker markerWithPosition:position];
+         marker.title = @"Varış Noktası";
+         marker.map = inMapView;
+     }];
+    [alertView show];
+}
+
 -(void)drawPolylineToMap:(NSNotification*)notification
-{    
+{
     GMSPolyline *polyline = [[GMSPolyline alloc] init];
     [path removeAllCoordinates];
     for(int i = 0 ; i < 5 ; i++)
@@ -66,37 +79,6 @@
 
 -(void)logmein
 {
-    /*SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Title2" andMessage:@"Message2"];
-    [alertView addButtonWithTitle:@"Cancel"
-                             type:SIAlertViewButtonTypeCancel
-                          handler:^(SIAlertView *alertView) {
-                              NSLog(@"Cancel Clicked");
-                          }];
-    [alertView addButtonWithTitle:@"OK"
-                             type:SIAlertViewButtonTypeDefault
-                          handler:^(SIAlertView *alertView) {
-                              NSLog(@"OK Clicked");
-                          }];
-    
-    alertView.titleFont = [UIFont fontWithName:@"ConfettiStream" size:18.0];
-    alertView.buttonFont = [UIFont boldSystemFontOfSize:13];
-    alertView.transitionStyle = SIAlertViewTransitionStyleBounce;
-    
-    alertView.willShowHandler = ^(SIAlertView *alertView) {
-        NSLog(@"%@, willShowHandler2", alertView);
-    };
-    alertView.didShowHandler = ^(SIAlertView *alertView) {
-        NSLog(@"%@, didShowHandler2", alertView);
-    };
-    alertView.willDismissHandler = ^(SIAlertView *alertView) {
-        NSLog(@"%@, willDismissHandler2", alertView);
-    };
-    alertView.didDismissHandler = ^(SIAlertView *alertView) {
-        NSLog(@"%@, didDismissHandler2", alertView);
-    };
-    
-    [alertView show];*/
-
     logInController = [[PFLogInViewController alloc] init];
     logInController.delegate = self;
     logInController.fields = PFLogInFieldsFacebook;

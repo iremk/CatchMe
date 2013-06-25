@@ -7,12 +7,20 @@
 //
 
 #import "ConnectionsViewController.h"
+#import "UIImage+iPhone5.m"
+#import "UIImageView+WebCache.h"
 
 @interface ConnectionsViewController ()
+{
+    NSMutableArray *sentRequestsArray;
+    NSMutableArray *receivedRequestsArray;
+    NSMutableArray *friendsArray;
+}
 
 @end
 
 @implementation ConnectionsViewController
+@synthesize requestsTableView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -28,6 +36,9 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     self.navigationItem.backBarButtonItem.title = nil;
+    sentRequestsArray = [[NSMutableArray alloc] init];
+    receivedRequestsArray = [[NSMutableArray alloc] init];
+    friendsArray = [[NSMutableArray alloc] init];
 }
 
 -(IBAction)findFriends:(id)sender
@@ -44,9 +55,124 @@
     [self.navigationController pushViewController:friendPickerViewController animated:YES];
 }
 
--(void)friendPickerViewControllerSelectionDidChange:(FBFriendPickerViewController *)friendPicker
+- (void)facebookViewControllerDoneWasPressed:(id)sender {
+    FBFriendPickerViewController *friendPickerController =
+    (FBFriendPickerViewController*)sender;
+    for(int i = 0 ; i < [friendPickerController.selection count] ; i++)
+    {
+        [[Api sharedInstance] addFriend:[friendPickerController.selection objectAtIndex:i]];
+    }
+    [friendPickerController.navigationController popViewControllerAnimated:YES];
+}
+
+-(void)viewDidAppear:(BOOL)animated
 {
-    NSLog(@"secti sanırım");
+    PFQuery *query = [PFQuery queryWithClassName:@"FriendRequests"];
+    [query whereKey:@"sender" equalTo:[[[[PFUser currentUser] valueForKey:@"authData"] valueForKey:@"facebook"] valueForKey:@"id"]];
+    [query whereKey:@"isFriends" equalTo:[NSNumber numberWithInt:0]];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            // The find succeeded.
+            self->sentRequestsArray = [objects mutableCopy];
+            [requestsTableView reloadData];
+        } else {
+            // Log details of the failure
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
+    }];
+    
+    query = [PFQuery queryWithClassName:@"FriendRequests"];
+    [query whereKey:@"receiver" equalTo:[[[[PFUser currentUser] valueForKey:@"authData"] valueForKey:@"facebook"] valueForKey:@"id"]];
+    [query whereKey:@"isFriends" equalTo:[NSNumber numberWithInt:0]];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            // The find succeeded.
+            self->receivedRequestsArray = [objects mutableCopy];
+            [requestsTableView reloadData];
+        } else {
+            // Log details of the failure
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
+    }];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:
+                              [NSString stringWithFormat:@"receiver = '%@' OR sender = '%@'" , [[[[PFUser currentUser] valueForKey:@"authData"] valueForKey:@"facebook"] valueForKey:@"id"] , [[[[PFUser currentUser] valueForKey:@"authData"] valueForKey:@"facebook"] valueForKey:@"id"]]];
+    query = [PFQuery queryWithClassName:@"FriendRequests" predicate:predicate];
+    [query whereKey:@"isFriends" equalTo:[NSNumber numberWithInt:1]];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            // The find succeeded.
+            self->friendsArray = [objects mutableCopy];
+            [requestsTableView reloadData];
+        } else {
+            // Log details of the failure
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
+    }];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *CellIdentifier = @"Cell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] ;
+    }
+    UIImageView *icon = (UIImageView *)[cell viewWithTag:1];
+    UILabel * title = (UILabel *)[cell viewWithTag:2];
+    if(indexPath.section == 2)
+    {
+        [icon setImageWithURL:[NSURL URLWithString:[[sentRequestsArray objectAtIndex:indexPath.row] valueForKey:@"picture"]]];
+        [title setText:[NSString stringWithFormat:@"%@ %@", [[sentRequestsArray objectAtIndex:indexPath.row] valueForKey:@"firstName"] , [[sentRequestsArray objectAtIndex:indexPath.row] valueForKey:@"lastName"]]];
+    }
+    else if(indexPath.section == 1)
+    {
+        [icon setImageWithURL:[NSURL URLWithString:[[receivedRequestsArray objectAtIndex:indexPath.row] valueForKey:@"picture"]]];
+        [title setText:[NSString stringWithFormat:@"%@ %@", [[receivedRequestsArray objectAtIndex:indexPath.row] valueForKey:@"firstName"] , [[receivedRequestsArray objectAtIndex:indexPath.row] valueForKey:@"lastName"]]];
+    }
+    else if(indexPath.section == 0)
+    {
+        [icon setImageWithURL:[NSURL URLWithString:[[friendsArray objectAtIndex:indexPath.row] valueForKey:@"picture"]]];
+        [title setText:[NSString stringWithFormat:@"%@ %@", [[friendsArray objectAtIndex:indexPath.row] valueForKey:@"firstName"] , [[friendsArray objectAtIndex:indexPath.row] valueForKey:@"lastName"]]];
+    }
+    return cell;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 3;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    if(section == 2)
+        return [sentRequestsArray count];
+    else if(section == 1)
+        return [receivedRequestsArray count];
+    else if(section == 0)
+        return [friendsArray count];
+    return 0;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 60;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSLog(@"selected");
+}
+
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    if(section == 2)
+        return @"Sent Requests";
+    else if(section == 1)
+        return @"Received Requests";
+    else if(section == 0)
+        return @"Friends";
+    return @"";
 }
 
 - (void)didReceiveMemoryWarning
