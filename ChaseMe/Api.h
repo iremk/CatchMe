@@ -18,5 +18,7 @@
 -(id)getCurrentLocation;
 -(id)convertLocationsToString:(NSMutableArray *)locations;
 -(id)addFriend:(NSMutableDictionary *)params;
+-(id)searchPlace:(NSMutableDictionary *)searchParams;
+-(id)createGroup:(NSMutableDictionary *)params;
 
 @end

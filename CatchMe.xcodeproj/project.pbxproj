@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		493F9B4517885DEF003DCEA9 /* CreateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 493F9B4417885DEF003DCEA9 /* CreateViewController.m */; };
+		493F9B4817915552003DCEA9 /* centralize.png in Resources */ = {isa = PBXBuildFile; fileRef = 493F9B4617915552003DCEA9 /* centralize.png */; };
+		493F9B4917915552003DCEA9 /* centralize@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 493F9B4717915552003DCEA9 /* centralize@2x.png */; };
+		493F9BBF17953701003DCEA9 /* RNBlurModalView.m in Sources */ = {isa = PBXBuildFile; fileRef = 493F9BBE17953701003DCEA9 /* RNBlurModalView.m */; };
+		493F9BC217953844003DCEA9 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 493F9BC117953844003DCEA9 /* Accelerate.framework */; };
 		49719ADA176221E7003FEC35 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49719AD9176221E7003FEC35 /* UIKit.framework */; };
 		49719ADC176221E7003FEC35 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49719ADB176221E7003FEC35 /* Foundation.framework */; };
 		49719ADE176221E7003FEC35 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49719ADD176221E7003FEC35 /* CoreGraphics.framework */; };
@@ -107,6 +112,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		493F9B4317885DEF003DCEA9 /* CreateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateViewController.h; sourceTree = "<group>"; };
+		493F9B4417885DEF003DCEA9 /* CreateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateViewController.m; sourceTree = "<group>"; };
+		493F9B4617915552003DCEA9 /* centralize.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = centralize.png; sourceTree = "<group>"; };
+		493F9B4717915552003DCEA9 /* centralize@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "centralize@2x.png"; sourceTree = "<group>"; };
+		493F9BBD17953701003DCEA9 /* RNBlurModalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNBlurModalView.h; sourceTree = "<group>"; };
+		493F9BBE17953701003DCEA9 /* RNBlurModalView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNBlurModalView.m; sourceTree = "<group>"; };
+		493F9BC117953844003DCEA9 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		49719AD6176221E7003FEC35 /* CatchMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CatchMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49719AD9176221E7003FEC35 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		49719ADB176221E7003FEC35 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -251,6 +263,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				493F9BC217953844003DCEA9 /* Accelerate.framework in Frameworks */,
 				49A0B09D17636E6F003258CD /* libsqlite3.dylib in Frameworks */,
 				49A0B08E17636CE9003258CD /* Accounts.framework in Frameworks */,
 				49A0B08C17636CE2003258CD /* Social.framework in Frameworks */,
@@ -286,6 +299,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		493F9B4A17915557003DCEA9 /* Centralize */ = {
+			isa = PBXGroup;
+			children = (
+				493F9B4617915552003DCEA9 /* centralize.png */,
+				493F9B4717915552003DCEA9 /* centralize@2x.png */,
+			);
+			name = Centralize;
+			sourceTree = "<group>";
+		};
+		493F9BC017953713003DCEA9 /* RNBlurModalView */ = {
+			isa = PBXGroup;
+			children = (
+				493F9BBD17953701003DCEA9 /* RNBlurModalView.h */,
+				493F9BBE17953701003DCEA9 /* RNBlurModalView.m */,
+			);
+			name = RNBlurModalView;
+			sourceTree = "<group>";
+		};
 		49719ACD176221E7003FEC35 = {
 			isa = PBXGroup;
 			children = (
@@ -309,6 +340,7 @@
 		49719AD8176221E7003FEC35 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				493F9BC117953844003DCEA9 /* Accelerate.framework */,
 				49BC34751767828C00E3C52D /* GoogleMaps.bundle */,
 				49BC34731767827D00E3C52D /* GoogleMaps.framework */,
 				49A0B09C17636E6F003258CD /* libsqlite3.dylib */,
@@ -385,6 +417,7 @@
 		49719B0317622EB3003FEC35 /* 3rd Party Libs */ = {
 			isa = PBXGroup;
 			children = (
+				493F9BC017953713003DCEA9 /* RNBlurModalView */,
 				49A0B0A517638CEE003258CD /* SIAlertView */,
 				49719B7A17623966003FEC35 /* UIImage+iPhone5 */,
 				49719B0917622F06003FEC35 /* SBJSON */,
@@ -525,6 +558,7 @@
 		49719B8717624198003FEC35 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				493F9B4A17915557003DCEA9 /* Centralize */,
 				49A0B0BB17660416003258CD /* Tentative */,
 				49A0B0BA17660407003258CD /* App Icon */,
 				49A0B0B9176603F7003258CD /* Parse Login */,
@@ -543,6 +577,15 @@
 				49719AF1176221E7003FEC35 /* MainStoryboard.storyboard */,
 			);
 			name = Core;
+			sourceTree = "<group>";
+		};
+		4975C50D17885AE2005FD78A /* Create View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				493F9B4317885DEF003DCEA9 /* CreateViewController.h */,
+				493F9B4417885DEF003DCEA9 /* CreateViewController.m */,
+			);
+			name = "Create View Controller";
 			sourceTree = "<group>";
 		};
 		49A0B06717634C55003258CD /* NavigationBar */ = {
@@ -605,6 +648,7 @@
 				49A0B076176355E3003258CD /* Connections View Controller */,
 				49A0B07A176355F5003258CD /* Settings View Controller */,
 				49A0B0B71763CD54003258CD /* Friend Picker View Controller */,
+				4975C50D17885AE2005FD78A /* Create View Controller */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -795,6 +839,8 @@
 				498421711779AC7B004C6284 /* Default.png in Resources */,
 				498421731779AC7E004C6284 /* Default@2x.png in Resources */,
 				498421751779AC82004C6284 /* Default-568h@2x.png in Resources */,
+				493F9B4817915552003DCEA9 /* centralize.png in Resources */,
+				493F9B4917915552003DCEA9 /* centralize@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -841,6 +887,8 @@
 				49A0B079176355F2003258CD /* SettingsViewController.m in Sources */,
 				49A0B0A417638CE8003258CD /* SIAlertView.m in Sources */,
 				49A0B0B61763CD4F003258CD /* FriendPickerViewController.m in Sources */,
+				493F9B4517885DEF003DCEA9 /* CreateViewController.m in Sources */,
+				493F9BBF17953701003DCEA9 /* RNBlurModalView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -878,6 +926,7 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -909,6 +958,7 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;

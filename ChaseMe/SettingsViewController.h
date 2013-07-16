@@ -11,4 +11,9 @@
 
 @interface SettingsViewController : BaseViewController
 
+@property (nonatomic , strong) IBOutlet UISwitch *visibilitySwitch;
+-(IBAction)toggleMyVisibility:(id)sender;
+
+@property (nonatomic , strong) IBOutlet UITableView *friendsTableView;
+
 @end

@@ -138,6 +138,31 @@
     return cell;
 }
 
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0 , 0, self.view.frame.size.width, 40)];
+    UIColor* bgColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"pattern.png"]];
+    [headerView setBackgroundColor:bgColor];
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 2, self.view.frame.size.width-20, 36)];
+    [titleLabel setFont:[UIFont fontWithName:@"GillSans" size:16.0]];
+    [titleLabel setBackgroundColor:[UIColor clearColor]];
+    [titleLabel setTextColor:[UIColor whiteColor]];
+    if(section == 2)
+        [titleLabel setText:@"Sent Requests"];
+    else if(section == 1)
+        [titleLabel setText:@"Received Requests"];
+    else if(section == 0)
+        [titleLabel setText:@"Friends"];
+    [headerView addSubview:titleLabel];
+    [headerView bringSubviewToFront:titleLabel];
+    return headerView;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 40.0;
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 3;
@@ -161,18 +186,14 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"selected");
-}
-
--(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-    if(section == 2)
-        return @"Sent Requests";
-    else if(section == 1)
-        return @"Received Requests";
-    else if(section == 0)
-        return @"Friends";
-    return @"";
+    if(indexPath.section == 1)
+    {
+        PFObject *object = [receivedRequestsArray objectAtIndex:indexPath.row];
+        [object setValue:[NSNumber numberWithInt:1] forKey:@"isFriends"];
+        [object setValue:[NSNumber numberWithInt:1] forKey:@"isVisible"];
+        [object save];
+        [requestsTableView reloadData];
+    }
 }
 
 - (void)didReceiveMemoryWarning

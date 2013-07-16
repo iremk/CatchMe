@@ -13,5 +13,6 @@
     #import <Foundation/Foundation.h>
 #endif
 
-#define GMaps_APIKey @"AIzaSyA5DY1IZLlToNiDVkd_UmCLrfYcV0Nr3As"
+#define GMaps_APIKey @"AIzaSyAJ0TFDPHfr9GradbCHen7kOsh3yIc9jpA"
 #define MyLocationsNotification @"myLocationsNotification"
+#define GooglePlacesApiKey @"AIzaSyDuaw6rb9J05PSvrXDK3Qvt1GyQLC__gSQ"

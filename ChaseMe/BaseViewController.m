@@ -38,15 +38,15 @@
     myLocations = [[NSMutableArray alloc] init];
 	// Do any additional setup after loading the view.
     ((MenuViewController *)self.sidePanelController.leftPanel).sidebarDelegate = self;
-    [[SIAlertView appearance] setMessageFont:[UIFont systemFontOfSize:13]];
-    [[SIAlertView appearance] setTitleColor:[UIColor greenColor]];
-    [[SIAlertView appearance] setMessageColor:[UIColor colorWithRed:38.0/255.0 green:17.0/255.0 blue:25.0/225.0 alpha:1.0]];
+    [[SIAlertView appearance] setMessageFont:[UIFont fontWithName:@"GillSans-Light" size:12.0]];
+    [[SIAlertView appearance] setTitleColor:[UIColor whiteColor]];
+    [[SIAlertView appearance] setMessageColor:[UIColor lightGrayColor]];
     [[SIAlertView appearance] setCornerRadius:12];
     [[SIAlertView appearance] setShadowRadius:20];
     
     locationManager = [[CLLocationManager alloc] init];
-    locationManager.distanceFilter = kCLDistanceFilterNone;
-    locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters; // 100 m
+    locationManager.distanceFilter = 100;
+    locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
     locationManager.delegate = self;
     currentLocation = [locationManager location];
     [locationManager startUpdatingLocation];
@@ -54,6 +54,7 @@
 
 -(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
+    NSLog(@"class : %@" , [self class]);
     CLLocation *newLocation = [locations lastObject];
     
     PFUser *currentUser = [PFUser currentUser];
@@ -67,8 +68,9 @@
     [myLocations addObject:newLocation];
     if([myLocations count] == 6)
     {
-        [myLocations removeObjectAtIndex:[myLocations count]-1];
-        [[NSNotificationCenter defaultCenter] postNotificationName:MyLocationsNotification object:nil userInfo:nil];
+        [myLocations removeObjectAtIndex:0];
+        if([self isKindOfClass:[MapViewController class]])
+            [[NSNotificationCenter defaultCenter] postNotificationName:MyLocationsNotification object:nil userInfo:nil];
 
         PFUser *user = [PFUser currentUser];
         [user setObject:[[Api sharedInstance] convertLocationsToString:myLocations] forKey:@"locations"];

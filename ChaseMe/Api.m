@@ -7,6 +7,7 @@
 //
 
 #import "Api.h"
+#import "SBJson.h"
 
 @implementation Api
 @synthesize locationsArray;
@@ -21,6 +22,18 @@
     return sharedInstance;
 }
 
+- (id)apiCall: (NSString *)url
+{
+    //url = [Base_Url stringByAppendingString:url];
+    NSURLRequest *theRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding]]];
+    NSURLResponse *resp = nil;
+    NSError *err = nil;
+    NSData *response = [NSURLConnection sendSynchronousRequest: theRequest returningResponse: &resp error: &err];
+    NSString * theString = [[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding];
+    SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
+    NSMutableDictionary *returnDict = [[jsonParser objectWithString:theString] mutableCopy];
+    return returnDict;
+}
 
 -(id)getCurrentLocation
 {
@@ -57,6 +70,38 @@
     [incidentObject setObject:[[[params valueForKey:@"picture"] valueForKey:@"data"] valueForKey:@"url"] forKey:@"picture"];
     [incidentObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         NSLog(@"added!");
+    }];
+    return nil;
+}
+
+-(id)searchPlace:(NSMutableDictionary *)searchParams
+{
+    NSString *url = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/textsearch/json?query=%@&key=%@&sensor=true&location=%@,%@&radius=%d" , [[searchParams valueForKey:@"placeName"] stringByReplacingOccurrencesOfString:@" " withString:@"+"] , GooglePlacesApiKey , [searchParams valueForKey:@"latitude"] , [searchParams valueForKey:@"longitude"] , 50000];
+    NSMutableDictionary *dict = [self apiCall:url];
+    return [dict valueForKey:@"results"];
+}
+
+-(id)createGroup:(NSMutableDictionary *)params
+{
+    NSMutableArray *addedFriends = [[NSMutableArray alloc] init];
+    NSString *currentUserId = [[[[PFUser currentUser] valueForKey:@"authData"] valueForKey:@"facebook"] valueForKey:@"id"];
+    for(int i = 0 ; i < [[params objectForKey:@"indexPaths"] count] ; i++)
+    {
+        PFObject *friendObject = [[params valueForKey:@"friends"] objectAtIndex:((NSIndexPath *)[[params objectForKey:@"indexPaths"] objectAtIndex:i]).row];
+        if([currentUserId isEqualToString:[friendObject valueForKey:@"receiver"]])
+            [addedFriends addObject:[friendObject valueForKey:@"sender"]];
+        else
+            [addedFriends addObject:[friendObject valueForKey:@"receiver"]];
+    }
+    [addedFriends addObject:currentUserId];
+    PFObject *incidentObject = [PFObject objectWithClassName:@"Groups"];
+    [incidentObject setObject:addedFriends forKey:@"people"];
+    [incidentObject setObject:[NSNumber numberWithInt:1] forKey:@"isActive"];
+    [incidentObject setObject:[params valueForKey:@"latitude"] forKey:@"latitude"];
+    [incidentObject setObject:[params valueForKey:@"longitude"] forKey:@"longitude"];
+    [incidentObject setObject:[params valueForKey:@"placeName"] forKey:@"placeName"];
+    [incidentObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        NSLog(@"created!");
     }];
     return nil;
 }
