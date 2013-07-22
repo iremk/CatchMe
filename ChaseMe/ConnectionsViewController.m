@@ -58,10 +58,13 @@
 - (void)facebookViewControllerDoneWasPressed:(id)sender {
     FBFriendPickerViewController *friendPickerController =
     (FBFriendPickerViewController*)sender;
+    NSMutableArray *friendIds = [[NSMutableArray alloc] init];
     for(int i = 0 ; i < [friendPickerController.selection count] ; i++)
     {
         [[Api sharedInstance] addFriend:[friendPickerController.selection objectAtIndex:i]];
+        [friendIds addObject:[[friendPickerController.selection objectAtIndex:i] valueForKey:@"id"]];
     }
+    
     [friendPickerController.navigationController popViewControllerAnimated:YES];
 }
 

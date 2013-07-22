@@ -9,8 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "BaseViewController.h"
 #import "RNBlurModalView.h"
+#import "MYIntroductionPanel.h"
+#import "MYIntroductionView.h"
 
-@interface MapViewController : BaseViewController <PFLogInViewControllerDelegate , GMSMapViewDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface MapViewController : BaseViewController <PFLogInViewControllerDelegate , GMSMapViewDelegate, UITableViewDataSource, UITableViewDelegate ,MYIntroductionDelegate>
 
 @property (nonatomic , strong) IBOutlet GMSMapView *mapView;
 @property (nonatomic , strong) IBOutlet UIButton *createNewButton;

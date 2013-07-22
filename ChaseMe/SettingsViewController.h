@@ -16,4 +16,6 @@
 
 @property (nonatomic , strong) IBOutlet UITableView *friendsTableView;
 
+-(IBAction)signOut:(id)sender;
+
 @end

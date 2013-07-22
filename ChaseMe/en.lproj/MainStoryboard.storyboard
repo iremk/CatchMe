@@ -5,7 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
     </dependencies>
     <scenes>
-        <!--Map View Controller - CatchMe-->
+        <!--Map View Controller - Pinite-->
         <scene sceneID="5">
             <objects>
                 <viewController storyboardIdentifier="mapViewController" id="2" customClass="MapViewController" sceneMemberID="viewController">
@@ -66,7 +66,7 @@
                             <constraint firstAttribute="trailing" secondItem="bSS-Q1-oAh" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="wi6-PU-X5W"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="CatchMe" id="hTb-kc-7Sf"/>
+                    <navigationItem key="navigationItem" title="Pinite" id="hTb-kc-7Sf"/>
                     <connections>
                         <outlet property="centralizeButton" destination="JEk-EA-hua" id="4Tl-UZ-aiO"/>
                         <outlet property="createNewButton" destination="bSS-Q1-oAh" id="0m2-US-Tmb"/>
@@ -203,7 +203,26 @@
                             <constraint firstItem="KBA-TX-mfX" firstAttribute="bottom" secondItem="7uw-Ag-zFp" secondAttribute="bottom" type="default" id="oGT-Xo-YGI"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Settings" id="Zcd-yd-Xlz"/>
+                    <navigationItem key="navigationItem" title="Settings" id="Zcd-yd-Xlz">
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="Uwe-7f-Yoy">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="G1q-tC-gPz">
+                                <rect key="frame" x="243" y="5" width="72" height="33"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" name="GillSans-Light" family="Gill Sans" pointSize="14"/>
+                                <state key="normal" title="Sign Out">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="signOut:" destination="s9r-MJ-0eT" eventType="touchUpInside" id="2EV-oz-tPO"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="friendsTableView" destination="KBA-TX-mfX" id="rqW-fn-cwh"/>
                         <outlet property="visibilitySwitch" destination="QGY-LV-i4Q" id="EbA-jS-2wd"/>
@@ -583,6 +602,7 @@
         <class className="SettingsViewController" superclassName="BaseViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingsViewController.h"/>
             <relationships>
+                <relationship kind="action" name="signOut:"/>
                 <relationship kind="action" name="toggleMyVisibility:"/>
                 <relationship kind="outlet" name="friendsTableView" candidateClass="UITableView"/>
                 <relationship kind="outlet" name="visibilitySwitch" candidateClass="UISwitch"/>

@@ -151,6 +151,63 @@
             NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
     }];
+        NSString *imageName0 = @"tutorialChar4.png";
+    NSString *imageName1 = @"openingTutorial4.png";
+    NSString *imageName2 = @"createGroupTutorial4.png";
+    NSString *imageName3 = @"connectionsTutorial4.png";
+    NSString *imageName4 = @"settingsTutorial4.png";
+    if(self.view.frame.size.height > 960)
+    {
+        imageName0 = @"tutorialChar5.png";
+        imageName1 = @"openingTutorial5.png";
+        imageName2 = @"createGroupTutorial5.png";
+        imageName3 = @"connectionsTutorial5.png";
+        imageName4 = @"settingsTutorial5.png";
+    }
+    
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if(![userDefaults boolForKey:@"tutorialShown"])
+    {
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        [userDefaults setBool:YES forKey:@"tutorialShown"];
+        [userDefaults synchronize];
+        MYIntroductionPanel *panel0 = [[MYIntroductionPanel alloc] initWithimage:[UIImage imageNamed:imageName0] description:@""];
+        
+        
+        MYIntroductionPanel *panel = [[MYIntroductionPanel alloc] initWithimage:[UIImage imageNamed:imageName1] description:@""];
+        
+        //You may also add in a title for each panel
+        MYIntroductionPanel *panel2 = [[MYIntroductionPanel alloc] initWithimage:[UIImage imageNamed:imageName2]   description:@""];
+        MYIntroductionPanel *panel3 = [[MYIntroductionPanel alloc] initWithimage:[UIImage imageNamed:imageName3]   description:@""];
+        MYIntroductionPanel *panel4 = [[MYIntroductionPanel alloc] initWithimage:[UIImage imageNamed:imageName4]   description:@""];
+        
+        /*A more customized version*/
+        MYIntroductionView *introductionView = [[MYIntroductionView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) headerText:@"Tutorial" panels:@[panel0,panel, panel2, panel3,panel4] languageDirection:MYLanguageDirectionLeftToRight];
+    //    [introductionView setBackgroundImage:[UIImage imageNamed:@"SampleBackground"]];
+        
+        
+        //Set delegate to self for callbacks (optional)
+        introductionView.delegate = self;
+        
+        //STEP 3: Show introduction view
+        [introductionView showInView:self.view];
+    }
+}
+
+-(void)introductionDidFinishWithType:(MYFinishType)finishType{
+    if (finishType == MYFinishTypeSkipButton) {
+        NSLog(@"Did Finish Introduction By Skipping It");
+    }
+    else if (finishType == MYFinishTypeSwipeOut){
+        NSLog(@"Did Finish Introduction By Swiping Out");
+    }
+    //One might consider making the introductionview a class variable and releasing it here.
+    // I didn't do this to keep things simple for the sake of example.
+}
+
+-(void)introductionDidChangeToPanel:(MYIntroductionPanel *)panel withIndex:(NSInteger)panelIndex{
+    NSLog(@"%@ \nPanelIndex: %d", panel.Description, panelIndex);
 }
 
 -(IBAction)centralize:(id)sender
@@ -227,6 +284,11 @@ didLongPressAtCoordinate:(CLLocationCoordinate2D)coordinate {
     logInController = [[PFLogInViewController alloc] init];
     logInController.delegate = self;
     logInController.fields = PFLogInFieldsFacebook;
+    for(id obj in logInController.view.subviews)
+    {
+        if([obj isKindOfClass:[UIButton class]])
+            [(UIButton *)obj setTitle:@"Connect with Facebook" forState:UIControlStateNormal];
+    }
     logInController.logInView.logo = (UIView *)[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"parseLogo.png"]];
     [logInController.logInView.dismissButton setHidden:YES];
     [logInController.logInView setBackgroundColor:[UIColor colorWithRed:38.0/255.0 green:17.0/255.0 blue:25.0/225.0 alpha:1.0]];
@@ -301,7 +363,7 @@ didLongPressAtCoordinate:(CLLocationCoordinate2D)coordinate {
 {
     if([groupsArray count] > 0)
     {
-        SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Info" andMessage:@"Are you sure to remove active group?"];
+        SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Info" andMessage:@"Are you sure to leave the group?"];
         [alertView addButtonWithTitle:@"No"
                                  type:SIAlertViewButtonTypeDestructive
                               handler:^(SIAlertView *alertView) {

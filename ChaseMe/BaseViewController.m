@@ -54,7 +54,6 @@
 
 -(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
-    NSLog(@"class : %@" , [self class]);
     CLLocation *newLocation = [locations lastObject];
     
     PFUser *currentUser = [PFUser currentUser];

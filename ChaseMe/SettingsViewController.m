@@ -7,6 +7,7 @@
 //
 
 #import "SettingsViewController.h"
+#import "MapViewController.h"
 
 @interface SettingsViewController ()
 {
@@ -90,6 +91,12 @@
     else
         [object setValue:[NSNumber numberWithInt:0] forKey:@"isVisible"];
     [object save];
+}
+
+-(IBAction)signOut:(id)sender
+{
+    [PFUser logOut];
+    self.sidePanelController.centerPanel = [[UINavigationController alloc] initWithRootViewController:(MapViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"mapViewController"]];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
