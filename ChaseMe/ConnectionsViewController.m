@@ -43,32 +43,51 @@
 
 -(IBAction)findFriends:(id)sender
 {
-    FBFriendPickerViewController *friendPickerViewController = [[FBFriendPickerViewController alloc]
-                                  initWithNibName:nil bundle:nil];
-    friendPickerViewController.delegate = self;
-    [friendPickerViewController loadData];
-    friendPickerViewController.title = nil;
-    friendPickerViewController.navigationItem.title = nil;
-    friendPickerViewController.navigationController.title = nil;
-    friendPickerViewController.navigationItem.backBarButtonItem.title = nil;
-    friendPickerViewController.navigationItem.leftBarButtonItem.title = nil;
-    [self.navigationController pushViewController:friendPickerViewController animated:YES];
+    NSMutableDictionary* params = nil;
+    [FBWebDialogs
+     presentRequestsDialogModallyWithSession:nil
+     message:@"Learn how to make your iOS apps social."
+     title:nil
+     parameters:params
+     handler:^(FBWebDialogResult result, NSURL *resultURL, NSError *error) {
+         if (error) {
+             NSLog(@"Error sending request.");
+         } else {
+             if (result == FBWebDialogResultDialogNotCompleted) {
+                 NSLog(@"User canceled request.");
+             } else {
+                 NSDictionary *urlParams = [self parseURLParams:[resultURL query]];
+                 if (![urlParams valueForKey:@"request"]) {
+                     NSLog(@"User canceled request.");
+                 } else {
+                     for(int i = 0 ; i < [[urlParams objectForKey:@"idsArray"] count] ; i++)
+                         [[Api sharedInstance] addFriend:[[urlParams objectForKey:@"idsArray"] objectAtIndex:i]];
+                     [self getConnections];
+                 }
+             }
+         }
+     }];
 }
 
-- (void)facebookViewControllerDoneWasPressed:(id)sender {
-    FBFriendPickerViewController *friendPickerController =
-    (FBFriendPickerViewController*)sender;
+- (NSDictionary*)parseURLParams:(NSString *)query {
+    NSArray *pairs = [query componentsSeparatedByString:@"&"];
+    NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
+    int i = 0;
     NSMutableArray *friendIds = [[NSMutableArray alloc] init];
-    for(int i = 0 ; i < [friendPickerController.selection count] ; i++)
-    {
-        [[Api sharedInstance] addFriend:[friendPickerController.selection objectAtIndex:i]];
-        [friendIds addObject:[[friendPickerController.selection objectAtIndex:i] valueForKey:@"id"]];
+    for (NSString *pair in pairs) {
+        NSArray *kv = [pair componentsSeparatedByString:@"="];
+        NSString *val =
+        [kv[1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        params[kv[0]] = val;
+        if(i != 0)
+            [friendIds addObject:val];
+        i++;
     }
-    
-    [friendPickerController.navigationController popViewControllerAnimated:YES];
+    [params setObject:friendIds forKey:@"idsArray"];
+    return params;
 }
 
--(void)viewDidAppear:(BOOL)animated
+-(void)getConnections
 {
     PFQuery *query = [PFQuery queryWithClassName:@"FriendRequests"];
     [query whereKey:@"sender" equalTo:[[[[PFUser currentUser] valueForKey:@"authData"] valueForKey:@"facebook"] valueForKey:@"id"]];
@@ -112,6 +131,11 @@
             NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
     }];
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [self getConnections];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

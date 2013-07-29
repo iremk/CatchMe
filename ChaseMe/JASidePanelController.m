@@ -436,7 +436,19 @@ static char ja_kvoContext;
         if (!buttonController.navigationItem.leftBarButtonItem) {   
             buttonController.navigationItem.leftBarButtonItem = [self leftButtonForCenterPanel];
         }
-    }	
+    }
+	if (self.rightPanel) {
+        UIViewController *buttonController = self.centerPanel;
+        if ([buttonController isKindOfClass:[UINavigationController class]]) {
+            UINavigationController *nav = (UINavigationController *)buttonController;
+            if ([nav.viewControllers count] > 0) {
+                buttonController = [nav.viewControllers objectAtIndex:0];
+            }
+        }
+        if (!buttonController.navigationItem.rightBarButtonItem) {
+            buttonController.navigationItem.rightBarButtonItem = [self rightButtonForCenterPanel];
+        }
+    }
 }
 
 #pragma mark - Gesture Recognizer Delegate
@@ -936,6 +948,17 @@ static char ja_kvoContext;
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button setImage:[UIImage imageNamed:@"button-menu.png"] forState:UIControlStateNormal];
     [button addTarget:self action:@selector(toggleLeftPanel:) forControlEvents:UIControlEventTouchDown];
+    CGRect frame = CGRectMake(0, 0, 29, 29);
+    button.frame = frame;
+    
+    UIBarButtonItem *bb = [[UIBarButtonItem alloc] initWithCustomView:button];
+    return bb;
+}
+
+- (UIBarButtonItem *)rightButtonForCenterPanel {
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button setImage:[UIImage imageNamed:@"friendList.png"] forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(toggleRightPanel:) forControlEvents:UIControlEventTouchDown];
     CGRect frame = CGRectMake(0, 0, 29, 29);
     button.frame = frame;
     

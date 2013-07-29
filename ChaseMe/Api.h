@@ -17,7 +17,7 @@
 + (id)sharedInstance;
 -(id)getCurrentLocation;
 -(id)convertLocationsToString:(NSMutableArray *)locations;
--(id)addFriend:(NSMutableDictionary *)params;
+-(id)addFriend:(NSString *)userId;
 -(id)searchPlace:(NSMutableDictionary *)searchParams;
 -(id)createGroup:(NSMutableDictionary *)params;
 

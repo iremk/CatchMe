@@ -16,23 +16,6 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K51-qQ-13V" customClass="GMSMapView">
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bSS-Q1-oAh">
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="60" id="487-Jo-NPb"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="24"/>
-                                <state key="normal" title="New">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="createNewGroup:" destination="2" eventType="touchUpInside" id="2r6-0g-PlV"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JEk-EA-hua">
                                 <color key="backgroundColor" red="0.25098039220000001" green="0.1058823529" blue="0.01176470588" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -59,17 +42,13 @@
                             <constraint firstItem="JEk-EA-hua" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="KD3-lL-5Ti"/>
                             <constraint firstItem="K51-qQ-13V" firstAttribute="top" secondItem="3" secondAttribute="top" type="default" id="KVY-U5-p5U"/>
                             <constraint firstItem="K51-qQ-13V" firstAttribute="trailing" secondItem="3" secondAttribute="trailing" type="default" id="KbF-Oz-4gn"/>
-                            <constraint firstItem="JEk-EA-hua" firstAttribute="top" secondItem="bSS-Q1-oAh" secondAttribute="top" type="default" id="ORJ-wH-Mgy"/>
                             <constraint firstAttribute="bottom" secondItem="JEk-EA-hua" secondAttribute="bottom" constant="20" symbolic="YES" type="default" id="RNu-tn-4OS"/>
                             <constraint firstItem="K51-qQ-13V" firstAttribute="leading" secondItem="3" secondAttribute="leading" type="default" id="nYm-4k-S0x"/>
-                            <constraint firstAttribute="bottom" secondItem="bSS-Q1-oAh" secondAttribute="bottom" constant="20" symbolic="YES" type="default" id="vzi-iK-lth"/>
-                            <constraint firstAttribute="trailing" secondItem="bSS-Q1-oAh" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="wi6-PU-X5W"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Pinite" id="hTb-kc-7Sf"/>
                     <connections>
                         <outlet property="centralizeButton" destination="JEk-EA-hua" id="4Tl-UZ-aiO"/>
-                        <outlet property="createNewButton" destination="bSS-Q1-oAh" id="0m2-US-Tmb"/>
                         <outlet property="mapView" destination="K51-qQ-13V" id="Zrn-XF-rtt"/>
                         <segue destination="ymg-4R-kMg" kind="push" identifier="mapToCreateSegue" id="bnQ-b7-o6A"/>
                     </connections>
@@ -549,6 +528,20 @@
             </objects>
             <point key="canvasLocation" x="895" y="-95"/>
         </scene>
+        <!--Right Menu View Controller-->
+        <scene sceneID="xBR-Vy-hnp">
+            <objects>
+                <viewController storyboardIdentifier="rightMenuViewController" id="cPK-ta-6JD" customClass="RightMenuViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="hM6-sS-apO">
+                        <rect key="frame" x="0.0" y="20" width="320" height="548"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MR2-hX-0Q1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1276" y="-95"/>
+        </scene>
     </scenes>
     <resources>
         <image name="centralize.png" width="64" height="64"/>
@@ -587,9 +580,10 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MapViewController.h"/>
             <relationships>
                 <relationship kind="action" name="centralize:"/>
+                <relationship kind="action" name="create:"/>
                 <relationship kind="action" name="createNewGroup:"/>
+                <relationship kind="action" name="search:"/>
                 <relationship kind="outlet" name="centralizeButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="createNewButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="mapView" candidateClass="GMSMapView"/>
             </relationships>
         </class>
@@ -598,6 +592,9 @@
         </class>
         <class className="NSLayoutConstraint" superclassName="NSObject">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+        <class className="RightMenuViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/RightMenuViewController.h"/>
         </class>
         <class className="SettingsViewController" superclassName="BaseViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingsViewController.h"/>

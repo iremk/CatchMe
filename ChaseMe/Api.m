@@ -59,18 +59,34 @@
     return returnStr;
 }
 
--(id)addFriend:(NSMutableDictionary *)params
+-(id)addFriend:(NSString *)userId
 {
-    PFObject *incidentObject = [PFObject objectWithClassName:@"FriendRequests"];
-    [incidentObject setObject:[[[[PFUser currentUser] valueForKey:@"authData"] valueForKey:@"facebook"] valueForKey:@"id"] forKey:@"sender"];
-    [incidentObject setObject:[params valueForKey:@"id"] forKey:@"receiver"];
-    [incidentObject setObject:[NSNumber numberWithFloat:0] forKey:@"isFriends"];
-    [incidentObject setObject:[params valueForKey:@"first_name"] forKey:@"firstName"];
-    [incidentObject setObject:[params valueForKey:@"last_name"] forKey:@"lastName"];
-    [incidentObject setObject:[[[params valueForKey:@"picture"] valueForKey:@"data"] valueForKey:@"url"] forKey:@"picture"];
-    [incidentObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        NSLog(@"added!");
-    }];
+    PFQuery *query = [PFQuery queryWithClassName:@"FriendRequests"];
+    [query whereKey:@"sender" equalTo:[[[[PFUser currentUser] valueForKey:@"authData"] valueForKey:@"facebook"] valueForKey:@"id"]];
+    [query whereKey:@"receiver" equalTo:userId];
+    
+    NSMutableArray *objects1 = [[query findObjects] mutableCopy];
+    if([objects1 count] == 0)
+    {
+        PFQuery *query2 = [PFQuery queryWithClassName:@"FriendRequests"];
+        [query2 whereKey:@"receiver" equalTo:[[[[PFUser currentUser] valueForKey:@"authData"] valueForKey:@"facebook"] valueForKey:@"id"]];
+        [query2 whereKey:@"sender" equalTo:userId];
+        NSMutableArray *objects2 = [[query2 findObjects] mutableCopy];
+        if([objects2 count] == 0)
+        {
+            NSString * url = [NSString stringWithFormat:@"http://graph.facebook.com/%@?fields=id,picture,first_name,last_name" , userId];
+            NSMutableDictionary *returnDict = [self apiCall:url];
+            PFObject *incidentObject = [PFObject objectWithClassName:@"FriendRequests"];
+            [incidentObject setObject:[[[[PFUser currentUser] valueForKey:@"authData"] valueForKey:@"facebook"] valueForKey:@"id"] forKey:@"sender"];
+            [incidentObject setObject:userId forKey:@"receiver"];
+            [incidentObject setObject:[NSNumber numberWithFloat:0] forKey:@"isFriends"];
+            [incidentObject setObject:[returnDict valueForKey:@"first_name"] forKey:@"firstName"];
+            [incidentObject setObject:[returnDict valueForKey:@"last_name"] forKey:@"lastName"];
+            [incidentObject setObject:[[[returnDict valueForKey:@"picture"] valueForKey:@"data"] valueForKey:@"url"] forKey:@"picture"];
+            [incidentObject save];
+        }
+    }
+    
     return nil;
 }
 

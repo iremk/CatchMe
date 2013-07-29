@@ -31,6 +31,7 @@
     UIStoryboard *st = [UIStoryboard storyboardWithName:[[NSBundle mainBundle].infoDictionary objectForKey:@"UIMainStoryboardFile"] bundle:[NSBundle mainBundle]];
     
 	self.viewController.leftPanel = (MenuViewController *)[st instantiateViewControllerWithIdentifier:@"menuViewController"];
+    self.viewController.rightPanel = (MenuViewController *)[st instantiateViewControllerWithIdentifier:@"rightMenuViewController"];
 	self.viewController.centerPanel = [[UINavigationController alloc] initWithRootViewController:(MapViewController *)[st instantiateViewControllerWithIdentifier:@"mapViewController"]];
     
 	self.window.rootViewController = self.viewController;
@@ -86,6 +87,10 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
     // Store the deviceToken in the current installation and save it to Parse.
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
     [currentInstallation setDeviceTokenFromData:deviceToken];
+    [currentInstallation saveInBackground];
+    
+    NSLog(@"description : %@" , deviceToken.description);
+    [currentInstallation addUniqueObject:deviceToken.description forKey:@"channels"];
     [currentInstallation saveInBackground];
 }
 
