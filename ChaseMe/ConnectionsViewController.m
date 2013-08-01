@@ -215,11 +215,44 @@
 {
     if(indexPath.section == 1)
     {
-        PFObject *object = [receivedRequestsArray objectAtIndex:indexPath.row];
-        [object setValue:[NSNumber numberWithInt:1] forKey:@"isFriends"];
-        [object setValue:[NSNumber numberWithInt:1] forKey:@"isVisible"];
-        [object save];
-        [requestsTableView reloadData];
+        SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Info" andMessage:@"Do you accept this invitation or do you ignore?"];
+        [alertView addButtonWithTitle:@"Ignore"
+                                 type:SIAlertViewButtonTypeDestructive
+                              handler:^(SIAlertView *alertView) {
+                                  PFObject *object = [receivedRequestsArray objectAtIndex:indexPath.row];
+                                  [object delete];
+                                  [requestsTableView reloadData];
+
+                              }];
+        [alertView addButtonWithTitle:@"Accept"
+                                 type:SIAlertViewButtonTypeDefault
+                              handler:^(SIAlertView *alertView) {
+                                  PFObject *object = [receivedRequestsArray objectAtIndex:indexPath.row];
+                                  [object setValue:[NSNumber numberWithInt:1] forKey:@"isFriends"];
+                                  [object setValue:[NSNumber numberWithInt:1] forKey:@"isVisible"];
+                                  [object save];
+                                  [requestsTableView reloadData];
+
+                              }];
+        [alertView show];
+    }
+    else if(indexPath.section == 2)
+    {
+        SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Info" andMessage:@"Do you want to ignore this invitation?"];
+        [alertView addButtonWithTitle:@"Cancel"
+                                 type:SIAlertViewButtonTypeDestructive
+                              handler:^(SIAlertView *alertView) {
+                                  NSLog(@"Cancelled");
+                                  
+                              }];
+        [alertView addButtonWithTitle:@"Ignore"
+                                 type:SIAlertViewButtonTypeDefault
+                              handler:^(SIAlertView *alertView) {
+                                  PFObject *object = [sentRequestsArray objectAtIndex:indexPath.row];
+                                  [object delete];
+                                  [requestsTableView reloadData];                                  
+                              }];
+        [alertView show];
     }
 }
 

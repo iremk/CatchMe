@@ -138,7 +138,7 @@
     [mapView setCamera:camera];
 }
 
--(UIView *)mapView:(GMSMapView *)mapView markerInfoWindow:(GMSMarker *)marker
+-(UIView *)mapView:(GMSMapView *)inMapView markerInfoWindow:(GMSMarker *)marker
 {
     UIView *markerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 120, 60)];
     [markerView setBackgroundColor:[UIColor colorWithRed:64.0/255.0 green:27.0/255.0 blue:3.0/255.0 alpha:1.0]];
@@ -160,6 +160,22 @@
     [markerView addSubview:titleLabel];
     [markerView addSubview:titleLabel2];
     markerView.layer.cornerRadius = 8;
+    
+    GMSPolyline *polyline = [[GMSPolyline alloc] init];
+    NSString *locations = marker.userData;
+    NSArray *locationsArray = [locations componentsSeparatedByString:@";"];
+    for(int l = 0 ; l < [locationsArray count] ; l++)
+    {
+        NSArray *coordinateArray = [[locationsArray objectAtIndex:l] componentsSeparatedByString:@"-"];
+        
+        CLLocation *location = [[CLLocation alloc] initWithLatitude:[[coordinateArray objectAtIndex:1] floatValue] longitude:[[coordinateArray objectAtIndex:0] floatValue]];
+        [path addCoordinate:location.coordinate];
+    }
+    polyline.path = path;
+    polyline.strokeColor = [UIColor redColor];
+    polyline.strokeWidth = 2.f;
+    polyline.map = mapView;
+    
     return markerView;
 }
 
@@ -241,28 +257,25 @@
                             GMSMarker *marker = [GMSMarker markerWithPosition:position];
                             marker.title = [[userArray objectAtIndex:k] valueForKey:@"Name"];
                             marker.snippet = [[userArray objectAtIndex:k] valueForKey:@"updatedAt"];
+                            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+                            [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss ZZZ"];
+                            NSDate *lastUpdate = [formatter dateFromString:marker.snippet];
+                            NSDate *now = [NSDate date];
                             marker.map = mapView;
+                            marker.userData = [[userArray objectAtIndex:k] valueForKey:@"locations"];
                             float randomRed = arc4random()%255;
                             float randomBlue = arc4random()%255;
                             float randomGreen = arc4random()%255;
                             marker.icon = [GMSMarker markerImageWithColor:[UIColor colorWithRed:randomRed/255.0 green:randomGreen/255.0 blue:randomBlue/255.0 alpha:1.0]];
                             
+                            NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] ;
+                            NSDateComponents *components = [calendar components:NSMinuteCalendarUnit
+                                                                       fromDate:lastUpdate
+                                                                         toDate:now
+                                                                        options:0];
                             
-                            GMSPolyline *polyline = [[GMSPolyline alloc] init];
-                            NSString *locations = [[userArray objectAtIndex:k] valueForKey:@"locations"];
-                            NSArray *locationsArray = [locations componentsSeparatedByString:@";"];
-                            for(int l = 0 ; l < [locationsArray count] ; l++)
-                            {
-                                NSArray *coordinateArray = [[locationsArray objectAtIndex:l] componentsSeparatedByString:@"-"];
-
-                                CLLocation *location = [[CLLocation alloc] initWithLatitude:[[coordinateArray objectAtIndex:1] floatValue] longitude:[[coordinateArray objectAtIndex:0] floatValue]];
-                                [path addCoordinate:location.coordinate];
-                            }
-                            polyline.path = path;
-                            polyline.strokeColor = [UIColor redColor];
-                            polyline.strokeWidth = 2.f;
-                            polyline.map = mapView;
-                            
+                            if(components.minute > 5)
+                                marker.icon = [GMSMarker markerImageWithColor:[UIColor darkGrayColor]];
                         }
                     }
                 }
