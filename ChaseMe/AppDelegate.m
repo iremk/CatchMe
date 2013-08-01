@@ -89,9 +89,20 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
     [currentInstallation setDeviceTokenFromData:deviceToken];
     [currentInstallation saveInBackground];
     
-    NSLog(@"description : %@" , deviceToken.description);
-    [currentInstallation addUniqueObject:deviceToken.description forKey:@"channels"];
+    NSString *deviceTokenString = deviceToken.description;
+    deviceTokenString = [deviceTokenString stringByReplacingOccurrencesOfString:@" " withString:@""];
+    deviceTokenString = [deviceTokenString stringByReplacingOccurrencesOfString:@"<" withString:@""];
+    deviceTokenString = [deviceTokenString stringByReplacingOccurrencesOfString:@">" withString:@""];
+    
+    [currentInstallation addUniqueObject:deviceTokenString forKey:@"channels"];
     [currentInstallation saveInBackground];
+    
+    if([PFUser currentUser])
+    {
+        PFUser *user = [PFUser currentUser];
+        [user setObject:deviceTokenString forKey:@"deviceToken"];
+        [user saveInBackground];
+    }
 }
 
 - (void)application:(UIApplication *)application

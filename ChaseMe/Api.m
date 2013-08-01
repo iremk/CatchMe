@@ -103,11 +103,31 @@
     NSString *currentUserId = [[[[PFUser currentUser] valueForKey:@"authData"] valueForKey:@"facebook"] valueForKey:@"id"];
     for(int i = 0 ; i < [[params objectForKey:@"indexPaths"] count] ; i++)
     {
+        PFQuery *userQuery = [PFUser query];
+        
         PFObject *friendObject = [[params valueForKey:@"friends"] objectAtIndex:((NSIndexPath *)[[params objectForKey:@"indexPaths"] objectAtIndex:i]).row];
         if([currentUserId isEqualToString:[friendObject valueForKey:@"receiver"]])
+        {
             [addedFriends addObject:[friendObject valueForKey:@"sender"]];
+            [userQuery whereKey:@"facebookId" equalTo:[friendObject valueForKey:@"sender"]];
+        }
         else
+        {
             [addedFriends addObject:[friendObject valueForKey:@"receiver"]];
+            [userQuery whereKey:@"facebookId" equalTo:[friendObject valueForKey:@"receiver"]];
+        }
+        
+        [userQuery findObjectsInBackgroundWithBlock:^(NSArray *objects , NSError *error) {
+            if([objects count] > 0)
+            {
+                PFObject *object = [objects objectAtIndex:0];
+                PFPush *push = [[PFPush alloc] init];
+                [push setChannel:[object valueForKey:@"deviceToken"]];
+                [push setMessage:@"I have added you to a new group, come join me!"];
+                [push sendPushInBackground];
+            }
+        }];
+        
     }
     [addedFriends addObject:currentUserId];
     PFObject *incidentObject = [PFObject objectWithClassName:@"Groups"];
