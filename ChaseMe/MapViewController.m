@@ -273,7 +273,7 @@
         }
     }];
     
-    [self performSelector:@selector(checkGroup) withObject:nil afterDelay:15.0];
+    [self performSelector:@selector(checkGroup) withObject:nil afterDelay:5.0];
 }
 
 - (void)didReceiveMemoryWarning

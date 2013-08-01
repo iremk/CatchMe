@@ -96,6 +96,13 @@
 -(IBAction)signOut:(id)sender
 {
     [PFUser logOut];
+    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Info" andMessage:@"You maybe need to wait for 10 minutes to log-in again."];
+    [alertView addButtonWithTitle:@"OK"
+                             type:SIAlertViewButtonTypeDestructive
+                          handler:^(SIAlertView *alertView) {
+                              NSLog(@"Cancel Clicked");
+                          }];
+    [alertView show];
     self.sidePanelController.centerPanel = [[UINavigationController alloc] initWithRootViewController:(MapViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"mapViewController"]];
 }
 

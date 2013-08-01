@@ -14,6 +14,7 @@
 #import "RNBlurModalView.h"
 #import "SIAlertView.h"
 #import "Api.h"
+#import "MBProgressHUD.h"
 
 #define CellHeight 44
 
@@ -37,7 +38,7 @@
     NSString* placeName;
     
     CLLocation *currentLocation;
-
+    MBProgressHUD *hud;
 }
 
 @end
@@ -400,8 +401,7 @@
     return 44.0;
 }
 
-
--(IBAction)search:(id)sender
+-(void)searchMethod
 {
     NSMutableDictionary * params = [[NSMutableDictionary alloc] init];
     [params setValue:placeTextField.text forKey:@"placeName"];
@@ -413,6 +413,15 @@
         [placesTableView reloadData];
     }
     [placeTextField resignFirstResponder];
+    [hud hide:YES];
+}
+
+-(IBAction)search:(id)sender
+{
+    hud = [MBProgressHUD showHUDAddedTo:blurredView animated:YES];
+    hud.mode = MBProgressHUDModeIndeterminate;
+    hud.labelText = @"Searching...";
+    [self performSelector:@selector(searchMethod) withObject:nil afterDelay:1.0];
 }
 
 -(IBAction)create:(id)sender
