@@ -257,9 +257,7 @@
                             GMSMarker *marker = [GMSMarker markerWithPosition:position];
                             marker.title = [[userArray objectAtIndex:k] valueForKey:@"Name"];
                             marker.snippet = [[userArray objectAtIndex:k] valueForKey:@"updatedAt"];
-                            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-                            [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss ZZZ"];
-                            NSDate *lastUpdate = [formatter dateFromString:marker.snippet];
+                            NSDate *lastUpdate = [[userArray objectAtIndex:k] valueForKey:@"updatedAt"];
                             NSDate *now = [NSDate date];
                             marker.map = mapView;
                             marker.userData = [[userArray objectAtIndex:k] valueForKey:@"locations"];
