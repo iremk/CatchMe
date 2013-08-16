@@ -54,6 +54,7 @@
 
 -(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
+    NSLog(@"update to location");
     CLLocation *newLocation = [locations lastObject];
     
     PFUser *currentUser = [PFUser currentUser];

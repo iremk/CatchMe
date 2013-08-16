@@ -15,6 +15,7 @@
     GMSMutablePath *path;
     
     NSMutableArray *groupsArray;
+    bool visible;
 }
 
 @end
@@ -27,6 +28,7 @@
 {
     [super viewDidLoad];
     
+    visible = YES;
     groupsArray = [[NSMutableArray alloc] init];
     
 }
@@ -231,6 +233,24 @@
 -(void)checkGroup
 {
     [path removeAllCoordinates];
+    [mapView clear];
+    PFUser *currentUser = [PFUser currentUser];
+    CLLocation *newLocation = [self.locationManager location];
+    if(currentUser)
+    {
+        [currentUser setValue:[NSNumber numberWithFloat:newLocation.coordinate.latitude] forKey:@"latitude"];
+        [currentUser setValue:[NSNumber numberWithFloat:newLocation.coordinate.longitude] forKey:@"longitude"];
+        [currentUser saveInBackground];
+    }
+    [self.myLocations addObject:newLocation];
+    if([self.myLocations count] == 6)
+    {
+        [self.myLocations removeObjectAtIndex:0];
+        PFUser *user = [PFUser currentUser];
+        [user setObject:[[Api sharedInstance] convertLocationsToString:self.myLocations] forKey:@"locations"];
+        [user saveInBackground];
+    }
+    
     PFQuery *query = [PFQuery queryWithClassName:@"Groups"];
     [query whereKey:@"isActive" equalTo:[NSNumber numberWithInt:1]];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -250,31 +270,34 @@
                         PFQuery *userquery = [PFUser query];
                         NSString *userId = [[[objects objectAtIndex:i] valueForKey:@"people"] objectAtIndex:j];
                         [userquery whereKey:@"facebookId" equalTo:userId];
-                        NSArray *userArray = [userquery findObjects];
-                        for(int k = 0 ; k < [userArray count] ; k++)
-                        {
-                            CLLocationCoordinate2D position = CLLocationCoordinate2DMake([[[userArray objectAtIndex:k] valueForKey:@"latitude"] floatValue], [[[userArray objectAtIndex:k] valueForKey:@"longitude"] floatValue]);
-                            GMSMarker *marker = [GMSMarker markerWithPosition:position];
-                            marker.title = [[userArray objectAtIndex:k] valueForKey:@"Name"];
-                            marker.snippet = [[userArray objectAtIndex:k] valueForKey:@"updatedAt"];
-                            NSDate *lastUpdate = [[userArray objectAtIndex:k] valueForKey:@"updatedAt"];
-                            NSDate *now = [NSDate date];
-                            marker.map = mapView;
-                            marker.userData = [[userArray objectAtIndex:k] valueForKey:@"locations"];
-                            float randomRed = arc4random()%255;
-                            float randomBlue = arc4random()%255;
-                            float randomGreen = arc4random()%255;
-                            marker.icon = [GMSMarker markerImageWithColor:[UIColor colorWithRed:randomRed/255.0 green:randomGreen/255.0 blue:randomBlue/255.0 alpha:1.0]];
-                            
-                            NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] ;
-                            NSDateComponents *components = [calendar components:NSMinuteCalendarUnit
-                                                                       fromDate:lastUpdate
-                                                                         toDate:now
-                                                                        options:0];
-                            
-                            if(components.minute > 5)
-                                marker.icon = [GMSMarker markerImageWithColor:[UIColor darkGrayColor]];
-                        }
+                        [userquery findObjectsInBackgroundWithBlock:^(NSArray *userArray, NSError *error){
+                            for(int k = 0 ; k < [userArray count] ; k++)
+                            {
+                                CLLocationCoordinate2D position = CLLocationCoordinate2DMake([[[userArray objectAtIndex:k] valueForKey:@"latitude"] floatValue], [[[userArray objectAtIndex:k] valueForKey:@"longitude"] floatValue]);
+                                GMSMarker *marker = [GMSMarker markerWithPosition:position];
+                                marker.title = [[userArray objectAtIndex:k] valueForKey:@"Name"];
+                                NSDate *lastUpdate = [[userArray objectAtIndex:k] valueForKey:@"updatedAt"];
+                                NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+                                [formatter setDateFormat:@"dd-MM-yyyy HH:mm:ss"];
+                                marker.snippet = [formatter stringFromDate:lastUpdate];
+                                NSDate *now = [NSDate date];
+                                marker.map = mapView;
+                                marker.userData = [[userArray objectAtIndex:k] valueForKey:@"locations"];
+                                float randomRed = arc4random()%255;
+                                float randomBlue = arc4random()%255;
+                                float randomGreen = arc4random()%255;
+                                marker.icon = [GMSMarker markerImageWithColor:[UIColor colorWithRed:randomRed/255.0 green:randomGreen/255.0 blue:randomBlue/255.0 alpha:1.0]];
+                                
+                                NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] ;
+                                NSDateComponents *components = [calendar components:NSMinuteCalendarUnit
+                                                                           fromDate:lastUpdate
+                                                                             toDate:now
+                                                                            options:0];
+                                
+                                if(components.minute > 5)
+                                    marker.icon = [GMSMarker markerImageWithColor:[UIColor darkGrayColor]];
+                            }
+                        }];
                     }
                 }
             }
@@ -283,8 +306,13 @@
             NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
     }];
-    
-    [self performSelector:@selector(checkGroup) withObject:nil afterDelay:5.0];
+    if(visible)
+        [self performSelector:@selector(checkGroup) withObject:nil afterDelay:15.0];
+}
+
+-(void)viewDidDisappear:(BOOL)animated
+{
+    visible = NO;
 }
 
 - (void)didReceiveMemoryWarning

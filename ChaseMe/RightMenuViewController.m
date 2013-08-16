@@ -15,6 +15,8 @@
 #import "SIAlertView.h"
 #import "Api.h"
 #import "MBProgressHUD.h"
+#import "UIViewController+JASidePanel.h"
+#import "JASidePanelController.h"
 
 #define CellHeight 44
 
@@ -354,7 +356,7 @@
 {
     if(tableView.tag == 30)
     {
-        UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0 , 0, self.view.frame.size.width, 44)];
+        UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0 , 0, self.view.frame.size.width, 88)];
         UIColor* bgColor = [UIColor colorWithRed:38.0/255.0 green:17.0/255.0 blue:25.0/255.0 alpha:1.0];
         [headerView setBackgroundColor:bgColor];
         UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(70, 2, self.view.frame.size.width-70, 40)];
@@ -367,9 +369,13 @@
         UIButton *createButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [createButton setBackgroundColor:[UIColor clearColor]];
         [createButton.titleLabel setFont:[UIFont fontWithName:@"GillSans-Light" size:14.0]];
-        [createButton setTitle:@"Create" forState:UIControlStateNormal];
-        [createButton setFrame:CGRectMake(200, 2, 80, 40)];
+        [createButton setTitle:@"Select friends and Pinite them +" forState:UIControlStateNormal];
+        [createButton setFrame:CGRectMake(70, 46, self.view.frame.size.width-120, 40)];
+        [createButton.titleLabel setTextAlignment:NSTextAlignmentLeft];
         [createButton addTarget:self action:@selector(createNewGroup:) forControlEvents:UIControlEventTouchDown];
+        [createButton.layer setBorderColor:(__bridge CGColorRef)([UIColor whiteColor])];
+        [createButton.layer setBorderWidth:1.0];
+        
         
         [headerView addSubview:titleLabel];
         [headerView addSubview:createButton];
@@ -398,7 +404,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 44.0;
+    return 88.0;
 }
 
 -(void)searchMethod
@@ -440,6 +446,7 @@
     [params setValue:placeName forKey:@"placeName"];
     [[Api sharedInstance] createGroup:params];
     [modal hide];
+    [self.sidePanelController showCenterPanelAnimated:YES];
 }
 
 - (void)didReceiveMemoryWarning
