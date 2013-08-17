@@ -238,8 +238,6 @@
 
 -(void)checkGroup
 {
-    [path removeAllCoordinates];
-    [mapView clear];
     PFUser *currentUser = [PFUser currentUser];
     CLLocation *newLocation = [self.locationManager location];
     if(currentUser)
@@ -262,6 +260,8 @@
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
             groupsArray = [objects mutableCopy];
+            [path removeAllCoordinates];
+            [mapView clear];
             for(int i = 0 ; i < [objects count] ; i++)
             {
                 CLLocationCoordinate2D position = CLLocationCoordinate2DMake([[[objects objectAtIndex:i] valueForKey:@"latitude"] floatValue], [[[objects objectAtIndex:i] valueForKey:@"longitude"] floatValue]);
