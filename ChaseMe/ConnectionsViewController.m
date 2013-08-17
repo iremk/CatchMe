@@ -9,6 +9,7 @@
 #import "ConnectionsViewController.h"
 #import "UIImage+iPhone5.m"
 #import "UIImageView+WebCache.h"
+#import <Parse/Parse.h>
 
 @interface ConnectionsViewController ()
 {
@@ -154,13 +155,21 @@
     }
     else if(indexPath.section == 1)
     {
-        [icon setImageWithURL:[NSURL URLWithString:[[receivedRequestsArray objectAtIndex:indexPath.row] valueForKey:@"picture"]]];
-        [title setText:[NSString stringWithFormat:@"%@ %@", [[receivedRequestsArray objectAtIndex:indexPath.row] valueForKey:@"firstName"] , [[receivedRequestsArray objectAtIndex:indexPath.row] valueForKey:@"lastName"]]];
+        [icon setImageWithURL:[NSURL URLWithString:[[receivedRequestsArray objectAtIndex:indexPath.row] valueForKey:@"senderPicture"]]];
+        [title setText:[NSString stringWithFormat:@"%@", [[receivedRequestsArray objectAtIndex:indexPath.row] valueForKey:@"senderName"]]];
     }
     else if(indexPath.section == 0)
     {
-        [icon setImageWithURL:[NSURL URLWithString:[[friendsArray objectAtIndex:indexPath.row] valueForKey:@"picture"]]];
-        [title setText:[NSString stringWithFormat:@"%@ %@", [[friendsArray objectAtIndex:indexPath.row] valueForKey:@"firstName"] , [[friendsArray objectAtIndex:indexPath.row] valueForKey:@"lastName"]]];
+        if([[[friendsArray objectAtIndex:indexPath.row] valueForKey:@"receiver"] isEqualToString:[[[[PFUser currentUser] valueForKey:@"authData"] valueForKey:@"facebook"] valueForKey:@"id"]])
+        {
+            [icon setImageWithURL:[NSURL URLWithString:[[friendsArray objectAtIndex:indexPath.row] valueForKey:@"senderPicture"]]];
+            [title setText:[NSString stringWithFormat:@"%@", [[friendsArray objectAtIndex:indexPath.row] valueForKey:@"senderName"]]];
+        }
+        else
+        {
+            [icon setImageWithURL:[NSURL URLWithString:[[friendsArray objectAtIndex:indexPath.row] valueForKey:@"picture"]]];
+            [title setText:[NSString stringWithFormat:@"%@ %@", [[friendsArray objectAtIndex:indexPath.row] valueForKey:@"firstName"] , [[friendsArray objectAtIndex:indexPath.row] valueForKey:@"lastName"]]];
+        }
     }
     return cell;
 }

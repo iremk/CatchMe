@@ -20,5 +20,6 @@
 -(id)addFriend:(NSString *)userId;
 -(id)searchPlace:(NSMutableDictionary *)searchParams;
 -(id)createGroup:(NSMutableDictionary *)params;
+-(id)getPictureURL:(NSString *)userId;
 
 @end

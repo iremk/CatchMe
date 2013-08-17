@@ -142,16 +142,16 @@
 
 -(UIView *)mapView:(GMSMapView *)inMapView markerInfoWindow:(GMSMarker *)marker
 {
-    UIView *markerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 120, 60)];
+    UIView *markerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 180, 60)];
     [markerView setBackgroundColor:[UIColor colorWithRed:64.0/255.0 green:27.0/255.0 blue:3.0/255.0 alpha:1.0]];
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 32)];
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 0, 120, 32)];
     [titleLabel setBackgroundColor:[UIColor clearColor]];
     [titleLabel setFont:[UIFont fontWithName:@"GillSans-Light" size:16.0]];
     [titleLabel setTextColor:[UIColor whiteColor]];
     [titleLabel setText:marker.title];
     [titleLabel setTextAlignment:NSTextAlignmentCenter];
     
-    UILabel *titleLabel2 = [[UILabel alloc] initWithFrame:CGRectMake(0, 34, 120, 24)];
+    UILabel *titleLabel2 = [[UILabel alloc] initWithFrame:CGRectMake(60, 34, 120, 24)];
     [titleLabel2 setBackgroundColor:[UIColor clearColor]];
     titleLabel2.numberOfLines = 2;
     [titleLabel2 setFont:[UIFont fontWithName:@"GillSans-Light" size:10.0]];
@@ -159,12 +159,17 @@
     [titleLabel2 setText:[NSString stringWithFormat:@"Last seen : %@" , marker.snippet]];
     [titleLabel2 setTextAlignment:NSTextAlignmentCenter];
     
+    UIImageView *pictureImageView = [[UIImageView alloc] initWithFrame:CGRectMake(6, 6, 48, 48)];
+    [pictureImageView setImageWithURL:[NSURL URLWithString:[marker.userData valueForKey:@"picture"]]];
+    pictureImageView.layer.cornerRadius = 8;
+    
     [markerView addSubview:titleLabel];
     [markerView addSubview:titleLabel2];
+    [markerView addSubview:pictureImageView];
     markerView.layer.cornerRadius = 8;
     
-    GMSPolyline *polyline = [[GMSPolyline alloc] init];
-    NSString *locations = marker.userData;
+    /*GMSPolyline *polyline = [[GMSPolyline alloc] init];
+    NSString *locations = [marker.userData valueForKey:@"locations"];
     NSArray *locationsArray = [locations componentsSeparatedByString:@";"];
     for(int l = 0 ; l < [locationsArray count] ; l++)
     {
@@ -176,7 +181,7 @@
     polyline.path = path;
     polyline.strokeColor = [UIColor redColor];
     polyline.strokeWidth = 2.f;
-    polyline.map = mapView;
+    polyline.map = mapView;*/
     
     return markerView;
 }
@@ -223,6 +228,7 @@
              if (!error) {
                  [user setValue:myUser.name forKey:@"Name"];
                  [user setValue:[NSNumber numberWithInt:1] forKey:@"isVisible"];
+                 [user setValue:[[Api sharedInstance] getPictureURL:userId] forKey:@"picture"];
                  [user saveInBackground];
                  [controller dismissViewControllerAnimated:YES completion:nil];
              }
@@ -279,10 +285,15 @@
                                 NSDate *lastUpdate = [[userArray objectAtIndex:k] valueForKey:@"updatedAt"];
                                 NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
                                 [formatter setDateFormat:@"dd-MM-yyyy HH:mm:ss"];
-                                marker.snippet = [formatter stringFromDate:lastUpdate];
+                                NSString *dateString = [formatter stringFromDate:lastUpdate];
+                                dateString = [dateString stringByAppendingString:@" GMT"];
+                                marker.snippet = dateString;
                                 NSDate *now = [NSDate date];
                                 marker.map = mapView;
-                                marker.userData = [[userArray objectAtIndex:k] valueForKey:@"locations"];
+                                NSMutableDictionary *userDataDictionary = [[NSMutableDictionary alloc] init];
+                                [userDataDictionary setValue:[[userArray objectAtIndex:k] valueForKey:@"locations"] forKey:@"locations"];
+                                [userDataDictionary setValue:[[userArray objectAtIndex:k] valueForKey:@"picture"] forKey:@"picture"];
+                                marker.userData = userDataDictionary;
                                 float randomRed = arc4random()%255;
                                 float randomBlue = arc4random()%255;
                                 float randomGreen = arc4random()%255;

@@ -74,6 +74,9 @@
         NSMutableArray *objects2 = [[query2 findObjects] mutableCopy];
         if([objects2 count] == 0)
         {
+            PFUser *currentUser = [PFUser currentUser];
+            NSString *currentUserName = [currentUser valueForKey:@"Name"];
+            NSString *currentUserPicture = [currentUser valueForKey:@"picture"];
             NSString * url = [NSString stringWithFormat:@"http://graph.facebook.com/%@?fields=id,picture,first_name,last_name" , userId];
             NSMutableDictionary *returnDict = [self apiCall:url];
             PFObject *incidentObject = [PFObject objectWithClassName:@"FriendRequests"];
@@ -83,11 +86,21 @@
             [incidentObject setObject:[returnDict valueForKey:@"first_name"] forKey:@"firstName"];
             [incidentObject setObject:[returnDict valueForKey:@"last_name"] forKey:@"lastName"];
             [incidentObject setObject:[[[returnDict valueForKey:@"picture"] valueForKey:@"data"] valueForKey:@"url"] forKey:@"picture"];
+            [incidentObject setObject:currentUserName forKey:@"senderName"];
+            [incidentObject setObject:currentUserPicture forKey:@"senderPicture"];
             [incidentObject save];
         }
     }
     
     return nil;
+}
+
+-(id)getPictureURL:(NSString *)userId
+{
+    NSString * url = [NSString stringWithFormat:@"http://graph.facebook.com/%@?fields=id,picture,first_name,last_name" , userId];
+    NSMutableDictionary *returnDict = [self apiCall:url];
+    NSString *imageURL = [[[returnDict valueForKey:@"picture"] valueForKey:@"data"] valueForKey:@"url"];
+    return imageURL;
 }
 
 -(id)searchPlace:(NSMutableDictionary *)searchParams
