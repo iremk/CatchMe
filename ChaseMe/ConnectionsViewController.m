@@ -224,8 +224,8 @@
 {
     if(indexPath.section == 1)
     {
-        SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Info" andMessage:@"Do you accept this invitation or do you ignore?"];
-        [alertView addButtonWithTitle:@"Ignore"
+        SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Info" andMessage:@"Do you accept the invitation?"];
+        [alertView addButtonWithTitle:@"No"
                                  type:SIAlertViewButtonTypeDestructive
                               handler:^(SIAlertView *alertView) {
                                   PFObject *object = [receivedRequestsArray objectAtIndex:indexPath.row];
@@ -233,7 +233,7 @@
                                   [requestsTableView reloadData];
 
                               }];
-        [alertView addButtonWithTitle:@"Accept"
+        [alertView addButtonWithTitle:@"Yes"
                                  type:SIAlertViewButtonTypeDefault
                               handler:^(SIAlertView *alertView) {
                                   PFObject *object = [receivedRequestsArray objectAtIndex:indexPath.row];
@@ -247,14 +247,14 @@
     }
     else if(indexPath.section == 2)
     {
-        SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Info" andMessage:@"Do you want to ignore this invitation?"];
-        [alertView addButtonWithTitle:@"Cancel"
+        SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Info" andMessage:@"Are you sure you want to cancel sent invitation?"];
+        [alertView addButtonWithTitle:@"No"
                                  type:SIAlertViewButtonTypeDestructive
                               handler:^(SIAlertView *alertView) {
                                   NSLog(@"Cancelled");
                                   
                               }];
-        [alertView addButtonWithTitle:@"Ignore"
+        [alertView addButtonWithTitle:@"Yes"
                                  type:SIAlertViewButtonTypeDefault
                               handler:^(SIAlertView *alertView) {
                                   PFObject *object = [sentRequestsArray objectAtIndex:indexPath.row];

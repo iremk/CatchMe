@@ -56,24 +56,9 @@
     return self;
 }
 
-- (void)viewDidLoad
+-(void)checkFriendsAndGroups
 {
-    [super viewDidLoad];
-    friendsArray = [[NSMutableArray alloc] init];
-    groupsArray = [[NSMutableArray alloc] init];
-    checkedIndexPaths = [[NSMutableArray alloc] init];
-    placesResults = [[NSMutableArray alloc] init];
-    currentLocation = [[Api sharedInstance] getCurrentLocation];
-    NumberOfItems = 0;
-    menuTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, self.view.frame.size.height)];
-    [menuTableView setDataSource:self];
-    [menuTableView setDelegate:self];
-    [menuTableView setSeparatorColor:[UIColor darkGrayColor]];
-    menuTableView.tag = 30;
-    UIColor* bgColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"pattern.png"]];
-    [menuTableView setBackgroundColor:bgColor];
-    [self.view addSubview:menuTableView];
-    
+    NSLog(@"check friends and groups");
     NSPredicate *predicate = [NSPredicate predicateWithFormat:
                               [NSString stringWithFormat:@"receiver = '%@' OR sender = '%@'" , [[[[PFUser currentUser] valueForKey:@"authData"] valueForKey:@"facebook"] valueForKey:@"id"] , [[[[PFUser currentUser] valueForKey:@"authData"] valueForKey:@"facebook"] valueForKey:@"id"]]];
     PFQuery *query = [PFQuery queryWithClassName:@"FriendRequests" predicate:predicate];
@@ -96,6 +81,29 @@
         if (!error) {
             groupsArray = [objects mutableCopy];
         }}];
+    
+    [self performSelector:@selector(checkFriendsAndGroups) withObject:nil afterDelay:10.0];
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    friendsArray = [[NSMutableArray alloc] init];
+    groupsArray = [[NSMutableArray alloc] init];
+    checkedIndexPaths = [[NSMutableArray alloc] init];
+    placesResults = [[NSMutableArray alloc] init];
+    currentLocation = [[Api sharedInstance] getCurrentLocation];
+    NumberOfItems = 0;
+    menuTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, self.view.frame.size.height)];
+    [menuTableView setDataSource:self];
+    [menuTableView setDelegate:self];
+    [menuTableView setSeparatorColor:[UIColor darkGrayColor]];
+    menuTableView.tag = 30;
+    UIColor* bgColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"pattern.png"]];
+    [menuTableView setBackgroundColor:bgColor];
+    [self.view addSubview:menuTableView];
+    
+    [self checkFriendsAndGroups];
     
     placeTextField.returnKeyType = UIReturnKeyDone;
     blurredView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 280, self.view.frame.size.height-40)];
