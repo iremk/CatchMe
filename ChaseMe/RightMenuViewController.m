@@ -246,11 +246,21 @@
         [title setBackgroundColor:[UIColor clearColor]];
         [title setTextColor:[UIColor whiteColor]];
         [title setFont:[UIFont fontWithName:@"GillSans" size:16.0]];
-        [icon setImageWithURL:[NSURL URLWithString:[[friendsArray objectAtIndex:indexPath.row] valueForKey:@"picture"]]];
         icon.clipsToBounds = YES;
         [icon setContentMode:UIViewContentModeScaleAspectFit];
         icon.layer.cornerRadius = 6;
-        [title setText:[NSString stringWithFormat:@"%@ %@", [[friendsArray objectAtIndex:indexPath.row] valueForKey:@"firstName"] , [[friendsArray objectAtIndex:indexPath.row] valueForKey:@"lastName"]]];    [icon setContentMode:UIViewContentModeCenter];
+        [icon setContentMode:UIViewContentModeCenter];
+        
+        if([[[friendsArray objectAtIndex:indexPath.row] valueForKey:@"receiver"] isEqualToString:[[[[PFUser currentUser] valueForKey:@"authData"] valueForKey:@"facebook"] valueForKey:@"id"]])
+        {
+            [icon setImageWithURL:[NSURL URLWithString:[[friendsArray objectAtIndex:indexPath.row] valueForKey:@"senderPicture"]]];
+            [title setText:[NSString stringWithFormat:@"%@", [[friendsArray objectAtIndex:indexPath.row] valueForKey:@"senderName"]]];
+        }
+        else
+        {
+            [icon setImageWithURL:[NSURL URLWithString:[[friendsArray objectAtIndex:indexPath.row] valueForKey:@"picture"]]];
+            [title setText:[NSString stringWithFormat:@"%@ %@", [[friendsArray objectAtIndex:indexPath.row] valueForKey:@"firstName"] , [[friendsArray objectAtIndex:indexPath.row] valueForKey:@"lastName"]]];
+        }        
         [cell.contentView addSubview:icon];
         [cell.contentView addSubview:title];
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];

@@ -117,21 +117,6 @@
             NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
     }];
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:
-                              [NSString stringWithFormat:@"receiver = '%@' OR sender = '%@'" , [[[[PFUser currentUser] valueForKey:@"authData"] valueForKey:@"facebook"] valueForKey:@"id"] , [[[[PFUser currentUser] valueForKey:@"authData"] valueForKey:@"facebook"] valueForKey:@"id"]]];
-    query = [PFQuery queryWithClassName:@"FriendRequests" predicate:predicate];
-    [query whereKey:@"isFriends" equalTo:[NSNumber numberWithInt:1]];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if (!error) {
-            // The find succeeded.
-            self->friendsArray = [objects mutableCopy];
-            [requestsTableView reloadData];
-        } else {
-            // Log details of the failure
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
-        }
-    }];
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -148,28 +133,15 @@
     }
     UIImageView *icon = (UIImageView *)[cell viewWithTag:1];
     UILabel * title = (UILabel *)[cell viewWithTag:2];
-    if(indexPath.section == 2)
+    if(indexPath.section == 1)
     {
         [icon setImageWithURL:[NSURL URLWithString:[[sentRequestsArray objectAtIndex:indexPath.row] valueForKey:@"picture"]]];
         [title setText:[NSString stringWithFormat:@"%@ %@", [[sentRequestsArray objectAtIndex:indexPath.row] valueForKey:@"firstName"] , [[sentRequestsArray objectAtIndex:indexPath.row] valueForKey:@"lastName"]]];
     }
-    else if(indexPath.section == 1)
+    else if(indexPath.section == 0)
     {
         [icon setImageWithURL:[NSURL URLWithString:[[receivedRequestsArray objectAtIndex:indexPath.row] valueForKey:@"senderPicture"]]];
         [title setText:[NSString stringWithFormat:@"%@", [[receivedRequestsArray objectAtIndex:indexPath.row] valueForKey:@"senderName"]]];
-    }
-    else if(indexPath.section == 0)
-    {
-        if([[[friendsArray objectAtIndex:indexPath.row] valueForKey:@"receiver"] isEqualToString:[[[[PFUser currentUser] valueForKey:@"authData"] valueForKey:@"facebook"] valueForKey:@"id"]])
-        {
-            [icon setImageWithURL:[NSURL URLWithString:[[friendsArray objectAtIndex:indexPath.row] valueForKey:@"senderPicture"]]];
-            [title setText:[NSString stringWithFormat:@"%@", [[friendsArray objectAtIndex:indexPath.row] valueForKey:@"senderName"]]];
-        }
-        else
-        {
-            [icon setImageWithURL:[NSURL URLWithString:[[friendsArray objectAtIndex:indexPath.row] valueForKey:@"picture"]]];
-            [title setText:[NSString stringWithFormat:@"%@ %@", [[friendsArray objectAtIndex:indexPath.row] valueForKey:@"firstName"] , [[friendsArray objectAtIndex:indexPath.row] valueForKey:@"lastName"]]];
-        }
     }
     return cell;
 }
@@ -183,12 +155,10 @@
     [titleLabel setFont:[UIFont fontWithName:@"GillSans" size:16.0]];
     [titleLabel setBackgroundColor:[UIColor clearColor]];
     [titleLabel setTextColor:[UIColor whiteColor]];
-    if(section == 2)
+    if(section == 1)
         [titleLabel setText:@"Sent Requests"];
-    else if(section == 1)
-        [titleLabel setText:@"Received Requests"];
     else if(section == 0)
-        [titleLabel setText:@"Friends"];
+        [titleLabel setText:@"Received Requests"];
     [headerView addSubview:titleLabel];
     [headerView bringSubviewToFront:titleLabel];
     return headerView;
@@ -201,17 +171,15 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if(section == 2)
+    if(section == 1)
         return [sentRequestsArray count];
-    else if(section == 1)
-        return [receivedRequestsArray count];
     else if(section == 0)
-        return [friendsArray count];
+        return [receivedRequestsArray count];
     return 0;
 }
 
@@ -222,7 +190,7 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(indexPath.section == 1)
+    if(indexPath.section == 0)
     {
         SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Info" andMessage:@"Do you accept the invitation?"];
         [alertView addButtonWithTitle:@"No"
@@ -239,13 +207,14 @@
                                   PFObject *object = [receivedRequestsArray objectAtIndex:indexPath.row];
                                   [object setValue:[NSNumber numberWithInt:1] forKey:@"isFriends"];
                                   [object setValue:[NSNumber numberWithInt:1] forKey:@"isVisible"];
-                                  [object save];
-                                  [requestsTableView reloadData];
-
+                                  [object saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
+                                   {
+                                       [self getConnections];
+                                   }];  
                               }];
         [alertView show];
     }
-    else if(indexPath.section == 2)
+    else if(indexPath.section == 1)
     {
         SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Info" andMessage:@"Are you sure you want to cancel sent invitation?"];
         [alertView addButtonWithTitle:@"No"
@@ -258,8 +227,10 @@
                                  type:SIAlertViewButtonTypeDefault
                               handler:^(SIAlertView *alertView) {
                                   PFObject *object = [sentRequestsArray objectAtIndex:indexPath.row];
-                                  [object delete];
-                                  [requestsTableView reloadData];                                  
+                                  [object deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
+                                   {
+                                       [self getConnections];
+                                   }];
                               }];
         [alertView show];
     }
