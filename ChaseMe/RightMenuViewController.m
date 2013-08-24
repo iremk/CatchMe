@@ -80,6 +80,25 @@
     [query2 findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
             groupsArray = [objects mutableCopy];
+            NSString *userId = [[[[PFUser currentUser] valueForKey:@"authData"] valueForKey:@"facebook"] valueForKey:@"id"];
+            int control = 0;
+            int availableGroup = 0;
+            for(int i = 0 ; i < [groupsArray count] ; i++)
+            {
+                for(int j = 0 ; j < [[[groupsArray objectAtIndex:i] valueForKey:@"people"] count]; j++)
+                {
+                    if([userId isEqualToString:[[[groupsArray objectAtIndex:i] valueForKey:@"people"] objectAtIndex:j]])
+                    {
+                        control = 1;
+                        availableGroup = i;
+                        break;
+                    }
+                }
+            }
+            if(control == 1)
+                groupsArray = [NSMutableArray arrayWithObject:[objects objectAtIndex:availableGroup]];
+            else
+                groupsArray = [[NSMutableArray alloc] init];
         }}];
     
     [self performSelector:@selector(checkFriendsAndGroups) withObject:nil afterDelay:10.0];

@@ -286,7 +286,6 @@
             int availableGroup = 0;
             for(int i = 0 ; i < [groupsArray count] ; i++)
             {
-                NSLog(@"girdim");
                 for(int j = 0 ; j < [[[groupsArray objectAtIndex:i] valueForKey:@"people"] count]; j++)
                 {
                     if([userId isEqualToString:[[[groupsArray objectAtIndex:i] valueForKey:@"people"] objectAtIndex:j]])
