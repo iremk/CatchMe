@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MapViewController.h"
 
 @protocol RightSidebarViewControllerDelegate;
 

@@ -291,8 +291,17 @@
         [title setTextColor:[UIColor whiteColor]];
         [title setFont:[UIFont fontWithName:@"GillSans" size:16.0]];
         int row = ((NSIndexPath *)[checkedIndexPaths objectAtIndex:indexPath.row]).row;
-        [icon setImageWithURL:[NSURL URLWithString:[[friendsArray objectAtIndex:row] valueForKey:@"picture"]]];
-        [title setText:[NSString stringWithFormat:@"%@ %@", [[friendsArray objectAtIndex:row] valueForKey:@"firstName"] , [[friendsArray objectAtIndex:row] valueForKey:@"lastName"]]];
+        
+        if([[[friendsArray objectAtIndex:row] valueForKey:@"receiver"] isEqualToString:[[[[PFUser currentUser] valueForKey:@"authData"] valueForKey:@"facebook"] valueForKey:@"id"]])
+        {
+            [icon setImageWithURL:[NSURL URLWithString:[[friendsArray objectAtIndex:row] valueForKey:@"senderPicture"]]];
+            [title setText:[NSString stringWithFormat:@"%@", [[friendsArray objectAtIndex:row] valueForKey:@"senderName"]]];
+        }
+        else
+        {
+            [icon setImageWithURL:[NSURL URLWithString:[[friendsArray objectAtIndex:row] valueForKey:@"picture"]]];
+            [title setText:[NSString stringWithFormat:@"%@ %@", [[friendsArray objectAtIndex:row] valueForKey:@"firstName"] , [[friendsArray objectAtIndex:row] valueForKey:@"lastName"]]];
+        }
         
         [cell.contentView addSubview:icon];
         [cell.contentView addSubview:title];
@@ -405,19 +414,28 @@
         
         UIButton *createButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [createButton setBackgroundColor:[UIColor clearColor]];
-        [createButton.titleLabel setFont:[UIFont fontWithName:@"GillSans-Light" size:14.0]];
-        [createButton setTitle:@"Select friends and Pinite them +" forState:UIControlStateNormal];
-        [createButton setFrame:CGRectMake(70, 46, self.view.frame.size.width-120, 40)];
+        [createButton.titleLabel setFont:[UIFont fontWithName:@"GillSans" size:16.0]];
+        [createButton setTitle:@"Select friends and Pinite them" forState:UIControlStateNormal];
+        [createButton setFrame:CGRectMake(50, 46, self.view.frame.size.width-80, 40)];
         [createButton.titleLabel setTextAlignment:NSTextAlignmentLeft];
         [createButton addTarget:self action:@selector(createNewGroup:) forControlEvents:UIControlEventTouchDown];
-        [createButton.layer setBorderColor:(__bridge CGColorRef)([UIColor whiteColor])];
-        [createButton.layer setBorderWidth:1.0];
+        
+        
+        UIButton *createButton2 = [UIButton buttonWithType:UIButtonTypeCustom];
+        [createButton2 setBackgroundColor:[UIColor clearColor]];
+        [createButton2 setFrame:CGRectMake(270, 55, 25, 25)];
+        [createButton2 addTarget:self action:@selector(createNewGroup:) forControlEvents:UIControlEventTouchDown];
+        [createButton2 setImage:[UIImage imageNamed:@"plus.png"] forState:UIControlStateNormal];
+        createButton2.layer.cornerRadius = 8.0;
+        [createButton2.layer setCornerRadius:8.0];
         
         
         [headerView addSubview:titleLabel];
         [headerView addSubview:createButton];
+        [headerView addSubview:createButton2];
         [headerView bringSubviewToFront:titleLabel];
         [headerView bringSubviewToFront:createButton];
+        [headerView bringSubviewToFront:createButton2];
         return headerView;
     }
     else
@@ -483,7 +501,7 @@
     [params setValue:placeName forKey:@"placeName"];
     [[Api sharedInstance] createGroup:params];
     [modal hide];
-    [self.sidePanelController showCenterPanelAnimated:YES];
+    self.sidePanelController.centerPanel = [[UINavigationController alloc] initWithRootViewController:(MapViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"mapViewController"]];
 }
 
 - (void)didReceiveMemoryWarning

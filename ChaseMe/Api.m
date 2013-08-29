@@ -149,9 +149,7 @@
     [incidentObject setObject:[params valueForKey:@"latitude"] forKey:@"latitude"];
     [incidentObject setObject:[params valueForKey:@"longitude"] forKey:@"longitude"];
     [incidentObject setObject:[params valueForKey:@"placeName"] forKey:@"placeName"];
-    [incidentObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        NSLog(@"created!");
-    }];
+    [incidentObject save];
     return nil;
 }
 

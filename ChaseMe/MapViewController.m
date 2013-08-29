@@ -279,8 +279,6 @@
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
             groupsArray = [objects mutableCopy];
-            [path removeAllCoordinates];
-            [mapView clear];
             NSString *userId = [[[[PFUser currentUser] valueForKey:@"authData"] valueForKey:@"facebook"] valueForKey:@"id"];
             int control = 0;
             int availableGroup = 0;
@@ -298,6 +296,8 @@
             }
             if(control == 1)
             {
+                [path removeAllCoordinates];
+                [mapView clear];
                 CLLocationCoordinate2D position = CLLocationCoordinate2DMake([[[objects objectAtIndex:availableGroup] valueForKey:@"latitude"] floatValue], [[[objects objectAtIndex:availableGroup] valueForKey:@"longitude"] floatValue]);
                 GMSMarker *marker = [GMSMarker markerWithPosition:position];
                 marker.title = @"Destination Point";
@@ -308,42 +308,57 @@
                 {
                     if(![[[[objects objectAtIndex:availableGroup] valueForKey:@"people"] objectAtIndex:j] isEqualToString:[[[[PFUser currentUser] valueForKey:@"authData"] valueForKey:@"facebook"] valueForKey:@"id"]])
                     {
-                        PFQuery *userquery = [PFUser query];
-                        NSString *userId = [[[objects objectAtIndex:availableGroup] valueForKey:@"people"] objectAtIndex:j];
-                        [userquery whereKey:@"facebookId" equalTo:userId];
-                        [userquery findObjectsInBackgroundWithBlock:^(NSArray *userArray, NSError *error){
-                            for(int k = 0 ; k < [userArray count] ; k++)
-                            {
-                                CLLocationCoordinate2D position = CLLocationCoordinate2DMake([[[userArray objectAtIndex:k] valueForKey:@"latitude"] floatValue], [[[userArray objectAtIndex:k] valueForKey:@"longitude"] floatValue]);
-                                GMSMarker *marker = [GMSMarker markerWithPosition:position];
-                                marker.title = [[userArray objectAtIndex:k] valueForKey:@"Name"];
-                                NSDate *lastUpdate = [[userArray objectAtIndex:k] valueForKey:@"updatedAt"];
-                                NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-                                [formatter setDateFormat:@"dd-MM-yyyy HH:mm:ss"];
-                                NSString *dateString = [formatter stringFromDate:lastUpdate];
-                                dateString = [dateString stringByAppendingString:@" GMT"];
-                                marker.snippet = dateString;
-                                NSDate *now = [NSDate date];
-                                marker.map = mapView;
-                                NSMutableDictionary *userDataDictionary = [[NSMutableDictionary alloc] init];
-                                [userDataDictionary setValue:[[userArray objectAtIndex:k] valueForKey:@"locations"] forKey:@"locations"];
-                                [userDataDictionary setValue:[[userArray objectAtIndex:k] valueForKey:@"picture"] forKey:@"picture"];
-                                marker.userData = userDataDictionary;
-                                float randomRed = arc4random()%255;
-                                float randomBlue = arc4random()%255;
-                                float randomGreen = arc4random()%255;
-                                marker.icon = [GMSMarker markerImageWithColor:[UIColor colorWithRed:randomRed/255.0 green:randomGreen/255.0 blue:randomBlue/255.0 alpha:1.0]];
-                                
-                                NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] ;
-                                NSDateComponents *components = [calendar components:NSMinuteCalendarUnit
-                                                                           fromDate:lastUpdate
-                                                                             toDate:now
-                                                                            options:0];
-                                
-                                if(components.minute > 5)
-                                    marker.icon = [GMSMarker markerImageWithColor:[UIColor darkGrayColor]];
-                            }
-                        }];
+                        PFQuery *visibilityQuery = [PFQuery queryWithClassName:@"FriendRequests"];
+                        [visibilityQuery whereKey:@"sender" equalTo:[[[objects objectAtIndex:availableGroup] valueForKey:@"people"] objectAtIndex:j]];
+                        [visibilityQuery whereKey:@"receiver" equalTo:[[[[PFUser currentUser] valueForKey:@"authData"] valueForKey:@"facebook"] valueForKey:@"id"]];
+                        [visibilityQuery whereKey:@"isVisible" equalTo:[NSNumber numberWithInt:0]];
+                        NSMutableArray *visibility1 = [[visibilityQuery findObjects] mutableCopy];
+                        
+                        PFQuery *visibilityQuery2 = [PFQuery queryWithClassName:@"FriendRequests"];
+                        [visibilityQuery2 whereKey:@"receiver" equalTo:[[[objects objectAtIndex:availableGroup] valueForKey:@"people"] objectAtIndex:j]];
+                        [visibilityQuery2 whereKey:@"sender" equalTo:[[[[PFUser currentUser] valueForKey:@"authData"] valueForKey:@"facebook"] valueForKey:@"id"]];
+                        [visibilityQuery2 whereKey:@"isVisible" equalTo:[NSNumber numberWithInt:0]];
+                        NSMutableArray *visibility2 = [[visibilityQuery2 findObjects] mutableCopy];
+                        
+                        if([visibility1 count] == 0 && [visibility2 count] == 0)
+                        {
+                            PFQuery *userquery = [PFUser query];
+                            NSString *userId = [[[objects objectAtIndex:availableGroup] valueForKey:@"people"] objectAtIndex:j];
+                            [userquery whereKey:@"facebookId" equalTo:userId];
+                            [userquery findObjectsInBackgroundWithBlock:^(NSArray *userArray, NSError *error){
+                                for(int k = 0 ; k < [userArray count] ; k++)
+                                {
+                                    CLLocationCoordinate2D position = CLLocationCoordinate2DMake([[[userArray objectAtIndex:k] valueForKey:@"latitude"] floatValue], [[[userArray objectAtIndex:k] valueForKey:@"longitude"] floatValue]);
+                                    GMSMarker *marker = [GMSMarker markerWithPosition:position];
+                                    marker.title = [[userArray objectAtIndex:k] valueForKey:@"Name"];
+                                    NSDate *lastUpdate = [[userArray objectAtIndex:k] valueForKey:@"updatedAt"];
+                                    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+                                    [formatter setDateFormat:@"dd-MM-yyyy HH:mm:ss"];
+                                    NSString *dateString = [formatter stringFromDate:lastUpdate];
+                                    dateString = [dateString stringByAppendingString:@" GMT"];
+                                    marker.snippet = dateString;
+                                    NSDate *now = [NSDate date];
+                                    marker.map = mapView;
+                                    NSMutableDictionary *userDataDictionary = [[NSMutableDictionary alloc] init];
+                                    [userDataDictionary setValue:[[userArray objectAtIndex:k] valueForKey:@"locations"] forKey:@"locations"];
+                                    [userDataDictionary setValue:[[userArray objectAtIndex:k] valueForKey:@"picture"] forKey:@"picture"];
+                                    marker.userData = userDataDictionary;
+                                    float randomRed = arc4random()%255;
+                                    float randomBlue = arc4random()%255;
+                                    float randomGreen = arc4random()%255;
+                                    marker.icon = [GMSMarker markerImageWithColor:[UIColor colorWithRed:randomRed/255.0 green:randomGreen/255.0 blue:randomBlue/255.0 alpha:1.0]];
+                                    
+                                    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] ;
+                                    NSDateComponents *components = [calendar components:NSMinuteCalendarUnit
+                                                                               fromDate:lastUpdate
+                                                                                 toDate:now
+                                                                                options:0];
+                                    
+                                    if(components.minute > 5)
+                                        marker.icon = [GMSMarker markerImageWithColor:[UIColor darkGrayColor]];
+                                }
+                            }];
+                        }
                     }
                 }
             }
