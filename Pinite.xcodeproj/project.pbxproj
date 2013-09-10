@@ -126,6 +126,12 @@
 		49DA347317BFF09300B5555C /* rightMenuTutorial5.png in Resources */ = {isa = PBXBuildFile; fileRef = 49DA347117BFF09300B5555C /* rightMenuTutorial5.png */; };
 		FC54424B17CEB4DB001BAB38 /* plus.png in Resources */ = {isa = PBXBuildFile; fileRef = FC54424917CEB4DB001BAB38 /* plus.png */; };
 		FC54424C17CEB4DB001BAB38 /* plus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FC54424A17CEB4DB001BAB38 /* plus@2x.png */; };
+		FCC377B117DDF41200793266 /* s1t1i4@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FCC377AF17DDF41200793266 /* s1t1i4@2x.png */; };
+		FCC377B217DDF41200793266 /* s1t1i5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FCC377B017DDF41200793266 /* s1t1i5@2x.png */; };
+		FCC377B817DDF8AC00793266 /* s2t2i4@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FCC377B417DDF8AB00793266 /* s2t2i4@2x.png */; };
+		FCC377B917DDF8AC00793266 /* s2t2i5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FCC377B517DDF8AB00793266 /* s2t2i5@2x.png */; };
+		FCC377BA17DDF8AC00793266 /* s3t3i4@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FCC377B617DDF8AB00793266 /* s3t3i4@2x.png */; };
+		FCC377BB17DDF8AC00793266 /* s3t3i5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FCC377B717DDF8AB00793266 /* s3t3i5@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -293,6 +299,12 @@
 		49DA347117BFF09300B5555C /* rightMenuTutorial5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rightMenuTutorial5.png; sourceTree = "<group>"; };
 		FC54424917CEB4DB001BAB38 /* plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plus.png; sourceTree = "<group>"; };
 		FC54424A17CEB4DB001BAB38 /* plus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "plus@2x.png"; sourceTree = "<group>"; };
+		FCC377AF17DDF41200793266 /* s1t1i4@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "s1t1i4@2x.png"; sourceTree = "<group>"; };
+		FCC377B017DDF41200793266 /* s1t1i5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "s1t1i5@2x.png"; sourceTree = "<group>"; };
+		FCC377B417DDF8AB00793266 /* s2t2i4@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "s2t2i4@2x.png"; sourceTree = "<group>"; };
+		FCC377B517DDF8AB00793266 /* s2t2i5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "s2t2i5@2x.png"; sourceTree = "<group>"; };
+		FCC377B617DDF8AB00793266 /* s3t3i4@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "s3t3i4@2x.png"; sourceTree = "<group>"; };
+		FCC377B717DDF8AB00793266 /* s3t3i5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "s3t3i5@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -643,6 +655,7 @@
 		49719B8717624198003FEC35 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				FCC377B317DDF41500793266 /* New Tutorial */,
 				FC54424917CEB4DB001BAB38 /* plus.png */,
 				FC54424A17CEB4DB001BAB38 /* plus@2x.png */,
 				495348FD179615B500F2437D /* Tutorial */,
@@ -836,6 +849,19 @@
 			name = Tentative;
 			sourceTree = "<group>";
 		};
+		FCC377B317DDF41500793266 /* New Tutorial */ = {
+			isa = PBXGroup;
+			children = (
+				FCC377AF17DDF41200793266 /* s1t1i4@2x.png */,
+				FCC377B017DDF41200793266 /* s1t1i5@2x.png */,
+				FCC377B417DDF8AB00793266 /* s2t2i4@2x.png */,
+				FCC377B517DDF8AB00793266 /* s2t2i5@2x.png */,
+				FCC377B617DDF8AB00793266 /* s3t3i4@2x.png */,
+				FCC377B717DDF8AB00793266 /* s3t3i5@2x.png */,
+			);
+			name = "New Tutorial";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -935,6 +961,12 @@
 				49DA347317BFF09300B5555C /* rightMenuTutorial5.png in Resources */,
 				FC54424B17CEB4DB001BAB38 /* plus.png in Resources */,
 				FC54424C17CEB4DB001BAB38 /* plus@2x.png in Resources */,
+				FCC377B117DDF41200793266 /* s1t1i4@2x.png in Resources */,
+				FCC377B217DDF41200793266 /* s1t1i5@2x.png in Resources */,
+				FCC377B817DDF8AC00793266 /* s2t2i4@2x.png in Resources */,
+				FCC377B917DDF8AC00793266 /* s2t2i5@2x.png in Resources */,
+				FCC377BA17DDF8AC00793266 /* s3t3i4@2x.png in Resources */,
+				FCC377BB17DDF8AC00793266 /* s3t3i5@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1023,8 +1055,8 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Irem KORKMAZ";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Irem KORKMAZ";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Irem KORKMAZ (5YYQLF4QAT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Irem KORKMAZ (5YYQLF4QAT)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1039,8 +1071,8 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "A61DAFCA-64D7-468B-A95E-7C946A3468F1";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A61DAFCA-64D7-468B-A95E-7C946A3468F1";
+				PROVISIONING_PROFILE = "1E1A5F24-AC5F-4BA3-A24D-05004EEA7F92";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "1E1A5F24-AC5F-4BA3-A24D-05004EEA7F92";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1057,8 +1089,8 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Irem KORKMAZ";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Irem KORKMAZ";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Irem KORKMAZ (5YYQLF4QAT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Irem KORKMAZ (5YYQLF4QAT)";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -1066,8 +1098,8 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				PROVISIONING_PROFILE = "A61DAFCA-64D7-468B-A95E-7C946A3468F1";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A61DAFCA-64D7-468B-A95E-7C946A3468F1";
+				PROVISIONING_PROFILE = "1E1A5F24-AC5F-4BA3-A24D-05004EEA7F92";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "1E1A5F24-AC5F-4BA3-A24D-05004EEA7F92";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1077,8 +1109,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = armv7;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Irem KORKMAZ (5YYQLF4QAT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Irem KORKMAZ (5YYQLF4QAT)";
 				COMPRESS_PNG_FILES = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1090,8 +1122,8 @@
 				INFOPLIST_FILE = "ChaseMe/Pinite-Info.plist";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = Pinite;
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "1E1A5F24-AC5F-4BA3-A24D-05004EEA7F92";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "1E1A5F24-AC5F-4BA3-A24D-05004EEA7F92";
 				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1101,8 +1133,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = armv7;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Irem KORKMAZ (5YYQLF4QAT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Irem KORKMAZ (5YYQLF4QAT)";
 				COMPRESS_PNG_FILES = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1114,8 +1146,8 @@
 				INFOPLIST_FILE = "ChaseMe/Pinite-Info.plist";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = Pinite;
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "1E1A5F24-AC5F-4BA3-A24D-05004EEA7F92";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "1E1A5F24-AC5F-4BA3-A24D-05004EEA7F92";
 				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};

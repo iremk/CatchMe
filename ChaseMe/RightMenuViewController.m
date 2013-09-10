@@ -147,7 +147,7 @@
     [blurredView addSubview:placeTextField];
     [blurredView addSubview:searchButton];
     
-    placesTableView = [[UITableView alloc] initWithFrame:CGRectMake(20, 54, 240, (self.view.frame.size.height-40)/2 - 59)];
+    placesTableView = [[UITableView alloc] initWithFrame:CGRectMake(20, 54, 240, (self.view.frame.size.height-40) - 118)];
     placesTableView.delegate = self;
     placesTableView.dataSource = self;
     placesTableView.tag = 10;
@@ -155,13 +155,13 @@
     [placesTableView setSeparatorColor:[UIColor whiteColor]];
     [blurredView addSubview:placesTableView];
     
-    friendsTableView = [[UITableView alloc] initWithFrame:CGRectMake(20, (self.view.frame.size.height-40)/2-5, 240, (self.view.frame.size.height-40)/2 - 59)];
+    /*friendsTableView = [[UITableView alloc] initWithFrame:CGRectMake(20, (self.view.frame.size.height-40)/2-5, 240, (self.view.frame.size.height-40)/2 - 59)];
     friendsTableView.delegate = self;
     friendsTableView.dataSource = self;
     friendsTableView.tag = 20;
     [friendsTableView setBackgroundColor:[UIColor clearColor]];
     [friendsTableView setSeparatorColor:[UIColor whiteColor]];
-    [blurredView addSubview:friendsTableView];
+    [blurredView addSubview:friendsTableView];*/
     
     UIButton *createButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [createButton setFrame:CGRectMake(20, self.view.frame.size.height-94, 240, 44)];
@@ -170,6 +170,30 @@
     [createButton setTitle:@"Create" forState:UIControlStateNormal];
     [createButton addTarget:self action:@selector(create:) forControlEvents:UIControlEventTouchDown];
     [blurredView addSubview:createButton];
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if(![userDefaults boolForKey:@"secondTutorialShown"])
+    {
+        int height = 460;
+        NSString *imageName0 = @"s2t2i4.png";
+        if(self.view.frame.size.height > 500)
+        {
+            imageName0 = @"s2t2i5.png";
+            height = 548;
+        }
+        UIImageView *tutorialView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 20, 320, height)];
+        [tutorialView setImage:[UIImage imageNamed:imageName0]];
+        UIWindow* mainWindow = [[UIApplication sharedApplication] keyWindow];
+        [mainWindow addSubview: tutorialView];
+        [self performSelector:@selector(hideTutorial:) withObject:tutorialView afterDelay:3.0];
+        [userDefaults setBool:YES forKey:@"secondTutorialShown"];
+        [userDefaults synchronize];
+    }
+}
+
+-(void)hideTutorial:(UIImageView *)view
+{
+    [view removeFromSuperview];
 }
 
 -(IBAction)createNewGroup:(id)sender
@@ -186,7 +210,7 @@
     }
     else
     {
-        [friendsTableView reloadData];
+        //[friendsTableView reloadData];
         if([groupsArray count] > 0)
         {
             SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Info" andMessage:@"Are you sure to leave the group?"];
@@ -202,9 +226,9 @@
                                       [groupObject setValue:[NSNumber numberWithInt:0] forKey:@"isActive"];
                                       [groupObject save];
                                       //[self performSegueWithIdentifier:@"mapToCreateSegue" sender:self];
-                                      [placesTableView setFrame:CGRectMake(20, 54, 240, (self.view.frame.size.height-40)/2 - 59)];
+                                      [placesTableView setFrame:CGRectMake(20, 54, 240, (self.view.frame.size.height-40) - 118)];
                                       [placesTableView setScrollEnabled:YES];
-                                      [friendsTableView setFrame:CGRectMake(20, (self.view.frame.size.height-40)/2-5, 240, (self.view.frame.size.height-40)/2 - 59)];
+                                      /*[friendsTableView setFrame:CGRectMake(20, (self.view.frame.size.height-40)/2-5, 240, (self.view.frame.size.height-40)/2 - 59)];*/
                                       [placeTextField setText:@""];
                                       [placesResults removeAllObjects];
                                       [placesTableView reloadData];
@@ -215,9 +239,9 @@
         }
         else
         {
-            [placesTableView setFrame:CGRectMake(20, 54, 240, (self.view.frame.size.height-40)/2 - 59)];
+            [placesTableView setFrame:CGRectMake(20, 54, 240, (self.view.frame.size.height-40) - 118)];
             [placesTableView setScrollEnabled:YES];
-            [friendsTableView setFrame:CGRectMake(20, (self.view.frame.size.height-40)/2-5, 240, (self.view.frame.size.height-40)/2 - 59)];
+            /*[friendsTableView setFrame:CGRectMake(20, (self.view.frame.size.height-40)/2-5, 240, (self.view.frame.size.height-40)/2 - 59)];*/
             [placeTextField setText:@""];
             [placesResults removeAllObjects];
             [placesTableView reloadData];
@@ -450,7 +474,7 @@
         if(tableView.tag == 20)
             [titleLabel setText:@"Add Friends to New Group"];
         else
-            [titleLabel setText:@"Choose Your Place"];
+            [titleLabel setText:@"Search Your Place to Meet"];
         [headerView addSubview:titleLabel];
         [headerView bringSubviewToFront:titleLabel];
         return headerView;
@@ -459,7 +483,10 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 88.0;
+    if(tableView.tag == 30)
+        return 88.0;
+    else
+        return 36.0;
 }
 
 -(void)searchMethod

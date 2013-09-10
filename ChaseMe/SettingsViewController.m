@@ -54,6 +54,30 @@
             NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
     }];
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if(![userDefaults boolForKey:@"thirdTutorialShown"])
+    {
+        int height = 460;
+        NSString *imageName0 = @"s3t3i4.png";
+        if(self.view.frame.size.height > 500)
+        {
+            imageName0 = @"s3t3i5.png";
+            height = 548;
+        }
+        UIImageView *tutorialView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 20, 320, height)];
+        [tutorialView setImage:[UIImage imageNamed:imageName0]];
+        UIWindow* mainWindow = [[UIApplication sharedApplication] keyWindow];
+        [mainWindow addSubview: tutorialView];
+        [self performSelector:@selector(hideTutorial:) withObject:tutorialView afterDelay:3.0];
+        [userDefaults setBool:YES forKey:@"thirdTutorialShown"];
+        [userDefaults synchronize];
+    }
+}
+
+-(void)hideTutorial:(UIImageView *)view
+{
+    [view removeFromSuperview];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -78,7 +102,11 @@
     else
         [toggleSwitch setOn:NO];
     
-    [title setText:[NSString stringWithFormat:@"%@ %@", [[friendsArray objectAtIndex:indexPath.row] valueForKey:@"firstName"] , [[friendsArray objectAtIndex:indexPath.row] valueForKey:@"lastName"]]];
+    if([[[friendsArray objectAtIndex:indexPath.row] valueForKey:@"receiver"] isEqualToString:[[[[PFUser currentUser] valueForKey:@"authData"] valueForKey:@"facebook"] valueForKey:@"id"]])
+        [title setText:[NSString stringWithFormat:@"%@", [[friendsArray objectAtIndex:indexPath.row] valueForKey:@"senderName"]]];
+    else
+        [title setText:[NSString stringWithFormat:@"%@ %@", [[friendsArray objectAtIndex:indexPath.row] valueForKey:@"firstName"] , [[friendsArray objectAtIndex:indexPath.row] valueForKey:@"lastName"]]];
+    
     [cell.contentView addSubview:toggleSwitch];
     return cell;
 }

@@ -72,7 +72,7 @@
     if([PFUser currentUser])
         [self checkGroup];
 
-    NSString *imageName0 = @"tutorialChar4.png";
+    /*NSString *imageName0 = @"tutorialChar4.png";
     NSString *imageName1 = @"openingTutorial4.png";
     NSString *imageName2 = @"createGroupTutorial4.png";
     NSString *imageName3 = @"connectionsTutorial4.png";
@@ -106,7 +106,7 @@
         MYIntroductionPanel *panel4 = [[MYIntroductionPanel alloc] initWithimage:[UIImage imageNamed:imageName4]   description:@""];
         MYIntroductionPanel *panel5 = [[MYIntroductionPanel alloc] initWithimage:[UIImage imageNamed:imageName5]   description:@""];
         
-        /*A more customized version*/
+        
         MYIntroductionView *introductionView = [[MYIntroductionView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) headerText:@"Tutorial" panels:@[panel0,panel, panel5,panel2, panel3,panel4] languageDirection:MYLanguageDirectionLeftToRight];
     //    [introductionView setBackgroundImage:[UIImage imageNamed:@"SampleBackground"]];
         
@@ -116,7 +116,30 @@
         
         //STEP 3: Show introduction view
         [introductionView showInView:self.view];
+    }*/
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if(![userDefaults boolForKey:@"firstTutorialShown"])
+    {
+        int height = 460;
+        NSString *imageName0 = @"s1t1i4.png";
+        if(self.view.frame.size.height > 500)
+        {
+            imageName0 = @"s1t1i5.png";
+            height = 548;
+        }
+        UIImageView *tutorialView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 20, 320, height)];
+        [tutorialView setImage:[UIImage imageNamed:imageName0]];
+        UIWindow* mainWindow = [[UIApplication sharedApplication] keyWindow];
+        [mainWindow addSubview: tutorialView];
+        [self performSelector:@selector(hideTutorial:) withObject:tutorialView afterDelay:3.0];
+        [userDefaults setBool:YES forKey:@"firstTutorialShown"];
+        [userDefaults synchronize];
     }
+}
+
+-(void)hideTutorial:(UIImageView *)view
+{
+    [view removeFromSuperview];
 }
 
 -(void)introductionDidFinishWithType:(MYFinishType)finishType{

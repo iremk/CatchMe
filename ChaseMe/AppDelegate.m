@@ -73,11 +73,6 @@
      UIRemoteNotificationTypeAlert|
      UIRemoteNotificationTypeSound];
     
-    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
-    [currentInstallation addUniqueObject:@"General" forKey:@"channels"];
-    [currentInstallation saveInBackground];
-
-    
     return YES;
 }
 
@@ -87,7 +82,6 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
     // Store the deviceToken in the current installation and save it to Parse.
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
     [currentInstallation setDeviceTokenFromData:deviceToken];
-    [currentInstallation saveInBackground];
     
     NSString *deviceTokenString = deviceToken.description;
     deviceTokenString = [deviceTokenString stringByReplacingOccurrencesOfString:@" " withString:@""];
