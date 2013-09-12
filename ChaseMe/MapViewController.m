@@ -70,76 +70,42 @@
      object:nil];
     
     if([PFUser currentUser])
+    {
         [self checkGroup];
-
-    /*NSString *imageName0 = @"tutorialChar4.png";
-    NSString *imageName1 = @"openingTutorial4.png";
-    NSString *imageName2 = @"createGroupTutorial4.png";
-    NSString *imageName3 = @"connectionsTutorial4.png";
-    NSString *imageName4 = @"settingsTutorial4.png";
-    NSString *imageName5 = @"rightMenuTutorial4.png";
-    if(self.view.frame.size.height > 960)
-    {
-        imageName0 = @"tutorialChar5.png";
-        imageName1 = @"openingTutorial5.png";
-        imageName2 = @"createGroupTutorial5.png";
-        imageName3 = @"connectionsTutorial5.png";
-        imageName4 = @"settingsTutorial5.png";
-        imageName5 = @"rightMenuTutorial5.png";
-    }
-    
-    
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    if(![userDefaults boolForKey:@"tutorialShown"])
-    {
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        [userDefaults setBool:YES forKey:@"tutorialShown"];
-        [userDefaults synchronize];
-        MYIntroductionPanel *panel0 = [[MYIntroductionPanel alloc] initWithimage:[UIImage imageNamed:imageName0] description:@""];
-        
-        
-        MYIntroductionPanel *panel = [[MYIntroductionPanel alloc] initWithimage:[UIImage imageNamed:imageName1] description:@""];
-        
-        //You may also add in a title for each panel
-        MYIntroductionPanel *panel2 = [[MYIntroductionPanel alloc] initWithimage:[UIImage imageNamed:imageName2]   description:@""];
-        MYIntroductionPanel *panel3 = [[MYIntroductionPanel alloc] initWithimage:[UIImage imageNamed:imageName3]   description:@""];
-        MYIntroductionPanel *panel4 = [[MYIntroductionPanel alloc] initWithimage:[UIImage imageNamed:imageName4]   description:@""];
-        MYIntroductionPanel *panel5 = [[MYIntroductionPanel alloc] initWithimage:[UIImage imageNamed:imageName5]   description:@""];
-        
-        
-        MYIntroductionView *introductionView = [[MYIntroductionView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) headerText:@"Tutorial" panels:@[panel0,panel, panel5,panel2, panel3,panel4] languageDirection:MYLanguageDirectionLeftToRight];
-    //    [introductionView setBackgroundImage:[UIImage imageNamed:@"SampleBackground"]];
-        
-        
-        //Set delegate to self for callbacks (optional)
-        introductionView.delegate = self;
-        
-        //STEP 3: Show introduction view
-        [introductionView showInView:self.view];
-    }*/
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    if(![userDefaults boolForKey:@"firstTutorialShown"])
-    {
-        int height = 460;
-        NSString *imageName0 = @"s1t1i4.png";
-        if(self.view.frame.size.height > 500)
+        if(![userDefaults boolForKey:@"firstTutorialShown"])
         {
-            imageName0 = @"s1t1i5.png";
-            height = 548;
+            int height = 460;
+            NSString *imageName0 = @"s1t1i4.png";
+            if(self.view.frame.size.height > 500)
+            {
+                imageName0 = @"s1t1i5.png";
+                height = 548;
+            }
+            UIView *tutorialWrapperView = [[UIView alloc] initWithFrame:CGRectMake(0, 20, 320, height)];
+            UIImageView *tutorialView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, height)];
+            [tutorialView setImage:[UIImage imageNamed:imageName0]];
+            [tutorialWrapperView addSubview:tutorialView];
+            UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+            [button setFrame:CGRectMake(320-24, 8, 20, 20)];
+            [button setBackgroundColor:[UIColor clearColor]];
+            [button setTitle:@"X" forState:UIControlStateNormal];
+            [button.titleLabel setFont:[UIFont fontWithName:@"GillSans" size:20.0]];
+            [button.titleLabel setTextColor:[UIColor whiteColor]];
+            [tutorialWrapperView addSubview:button];
+            [button addTarget:self action:@selector(closeTutorial:) forControlEvents:UIControlEventTouchDown];
+            UIWindow* mainWindow = [[UIApplication sharedApplication] keyWindow];
+            [mainWindow addSubview: tutorialWrapperView];
+            [userDefaults setBool:YES forKey:@"firstTutorialShown"];
+            [userDefaults synchronize];
         }
-        UIImageView *tutorialView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 20, 320, height)];
-        [tutorialView setImage:[UIImage imageNamed:imageName0]];
-        UIWindow* mainWindow = [[UIApplication sharedApplication] keyWindow];
-        [mainWindow addSubview: tutorialView];
-        [self performSelector:@selector(hideTutorial:) withObject:tutorialView afterDelay:3.0];
-        [userDefaults setBool:YES forKey:@"firstTutorialShown"];
-        [userDefaults synchronize];
     }
 }
 
--(void)hideTutorial:(UIImageView *)view
+-(IBAction)closeTutorial:(id)sender
 {
-    [view removeFromSuperview];
+    UIButton *button = sender;
+    [button.superview removeFromSuperview];
 }
 
 -(void)introductionDidFinishWithType:(MYFinishType)finishType{

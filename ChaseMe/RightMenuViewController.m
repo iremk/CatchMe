@@ -167,7 +167,7 @@
     [createButton setFrame:CGRectMake(20, self.view.frame.size.height-94, 240, 44)];
     [createButton setBackgroundColor:[UIColor colorWithRed:64.0/255.0 green:27.0/255.0 blue:3.0/255.0 alpha:1.0]];
     [createButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [createButton setTitle:@"Create" forState:UIControlStateNormal];
+    [createButton setTitle:@"Create Group" forState:UIControlStateNormal];
     [createButton addTarget:self action:@selector(create:) forControlEvents:UIControlEventTouchDown];
     [blurredView addSubview:createButton];
     
@@ -181,19 +181,29 @@
             imageName0 = @"s2t2i5.png";
             height = 548;
         }
-        UIImageView *tutorialView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 20, 320, height)];
+        UIView *tutorialWrapperView = [[UIView alloc] initWithFrame:CGRectMake(0, 20, 320, height)];
+        UIImageView *tutorialView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, height)];
         [tutorialView setImage:[UIImage imageNamed:imageName0]];
+        [tutorialWrapperView addSubview:tutorialView];
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        [button setFrame:CGRectMake(320-24, 8, 20, 20)];
+        [button setBackgroundColor:[UIColor clearColor]];
+        [button setTitle:@"X" forState:UIControlStateNormal];
+        [button.titleLabel setFont:[UIFont fontWithName:@"GillSans" size:20.0]];
+        [button.titleLabel setTextColor:[UIColor whiteColor]];
+        [tutorialWrapperView addSubview:button];
+        [button addTarget:self action:@selector(closeTutorial:) forControlEvents:UIControlEventTouchDown];
         UIWindow* mainWindow = [[UIApplication sharedApplication] keyWindow];
-        [mainWindow addSubview: tutorialView];
-        [self performSelector:@selector(hideTutorial:) withObject:tutorialView afterDelay:3.0];
+        [mainWindow addSubview: tutorialWrapperView];
         [userDefaults setBool:YES forKey:@"secondTutorialShown"];
         [userDefaults synchronize];
     }
 }
 
--(void)hideTutorial:(UIImageView *)view
+-(IBAction)closeTutorial:(id)sender
 {
-    [view removeFromSuperview];
+    UIButton *button = sender;
+    [button.superview removeFromSuperview];
 }
 
 -(IBAction)createNewGroup:(id)sender
